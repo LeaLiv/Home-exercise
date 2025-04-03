@@ -1,0 +1,15 @@
+C:\Lea\Home exercise\PartA\PartA\bin\Debug\net8.0\PartA.exe
+C:\Lea\Home exercise\PartA\PartA\bin\Debug\net8.0\PartA.deps.json
+C:\Lea\Home exercise\PartA\PartA\bin\Debug\net8.0\PartA.runtimeconfig.json
+C:\Lea\Home exercise\PartA\PartA\bin\Debug\net8.0\PartA.dll
+C:\Lea\Home exercise\PartA\PartA\bin\Debug\net8.0\PartA.pdb
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.AssemblyInfoInputs.cache
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.AssemblyInfo.cs
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.csproj.CoreCompileInputs.cache
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.sourcelink.json
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.dll
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\refint\PartA.dll
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.pdb
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.genruntimeconfig.cache
+C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\ref\PartA.dll
