@@ -18,10 +18,10 @@ namespace PartD.Controllers
         public ActionResult<List<Supplier>> GetAll() =>
              _supplierService.GetAll();
 
-        [HttpGet("{id}")]
-        public ActionResult<Supplier> Get(string id)
+        [HttpGet("{phone}")]
+        public ActionResult<Supplier> Get(string phone)
         {
-            var supplier = _supplierService.Get(id);
+            var supplier = _supplierService.Get(phone);
             if (supplier == null)
             {
                 return NotFound();

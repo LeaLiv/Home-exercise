@@ -8,21 +8,18 @@
 </head>
 <body>
     <h1>כניסת ספקים</h1>
-    <form action="javascript:void(0)" onsubmit="enterSystem()">
+    <div id="enterForm">    
+        <form action="javascript:void(0)" onsubmit="enterSystem()" >
         <input type="text" id="supplier-name" placeholder="שם חברה" required>
         <input type="text" id="supplier-phone" placeholder="טלפון" required>       
         <input type="submit" value="כניסת ספק רשום">
-    </form>
-    <button onclick="showNewSupplierDetails()"> כניסת ספק חדש</button>
-    <div id="newSupplierInfo"></div>
-    <!-- <form action="javascript:void(0)" onsubmit="enterSystem()">
-        <input type="text" id="supplier-name" placeholder="שם חברה" required>
-        <input type="text" id="supplier-phone" placeholder="טלפון" required>
-        <input type="text" id="contact-person" placeholder="שם נציג" required>
-        <button onclick="addProductField()">הוספת מוצר</button>
        
-        <input type="submit" value="כניסת ספק רשום">
-    </form> -->
+    </form> <br>
+    <button onclick="showNewSupplierDetails()" id="newSupplierInfoButton"> כניסת ספק חדש</button>
+    <div id="newSupplierInfo"></div>
+</div>
+
+
 </body>
 <script src="./js/site.js"></script>
 </html>

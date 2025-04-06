@@ -2,9 +2,46 @@ const uri = '/supplier';
 let pizzas = [];
 
 const enterSystem = () => {
+    console.log("in enterSystem");
+
+    const enterForm = document.getElementById('enterForm');
+    enterForm.style.display = 'none';
+    localStorage.setItem('isLoggedIn', true);
+    const supplierPhone = document.getElementById('supplier-phone').value;
+    const supplierName = document.getElementById('supplier-name').value;
+    console.log(`${uri}/${supplierPhone}`);
+
+    fetch(`${uri}/${supplierPhone}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data == null || data.status==404) {
+                alert("מספר טלפון לא קיים במערכת")
+                enterForm.style.display = 'block';
+                return;
+            }
+            if (data.companyName != supplierName) {
+                alert("שם חברה לא תואם מספר טלפון");
+                enterForm.style.display = 'block';
+                return;
+            }
+            //all is good need to show details
+            localStorage.setItem('supplierId', data.id);
+            localStorage.setItem('supplierName', data.companyName);
+            localStorage.setItem('supplierPhone', data.phoneNumber);
+            localStorage.setItem('supplierContactPerson', data.contactPerson);
+
+        })
+        .catch(error => {
+            alert("נתונים שגויים הכנס שוב");
+            enterForm.style.display = 'block';
+            console.error('Unable to get supplier.', error)
+        });
 
 }
 const showNewSupplierDetails = () => {
+    const newSupplierInfoButton = document.getElementById('newSupplierInfoButton')
+    newSupplierInfoButton.style.display = 'none';
     const newSupplierInfo = document.getElementById('newSupplierInfo');
     console.log("in showNewSupplierDetails")
     newSupplierInfo.style.display = 'block';
@@ -13,25 +50,34 @@ const showNewSupplierDetails = () => {
     newSupplierCompanyName.type = 'text';
     newSupplierCompanyName.placeholder = 'שם חברה';
     newSupplierInfo.appendChild(newSupplierCompanyName);
+    newSupplierInfo.append(document.createElement('br'));
+    newSupplierInfo.append(document.createElement('br'));
     let newSupplierPhoneNumber = document.createElement('input');
     newSupplierPhoneNumber.id = 'new-supplier-phone-number';
     newSupplierPhoneNumber.type = 'text';
     newSupplierPhoneNumber.placeholder = 'מספר טלפון';
     newSupplierInfo.appendChild(newSupplierPhoneNumber);
-    const newSupplierContactPerson= document.createElement('input');
+    newSupplierInfo.append(document.createElement('br'));
+    newSupplierInfo.append(document.createElement('br'));
+    const newSupplierContactPerson = document.createElement('input');
     newSupplierContactPerson.id = 'new-supplier-contact-person';
     newSupplierContactPerson.type = 'text';
     newSupplierContactPerson.placeholder = 'שם נציג';
     newSupplierInfo.appendChild(newSupplierContactPerson);
+    newSupplierInfo.append(document.createElement('br'));
+    newSupplierInfo.append(document.createElement('br'));
     const newSupplierProductButton = document.createElement('button');
     newSupplierProductButton.id = 'new-supplier-product-button';
     newSupplierProductButton.innerText = 'הוספת מוצר';
     newSupplierProductButton.onclick = addProductField;
     newSupplierInfo.appendChild(newSupplierProductButton);
+    newSupplierInfo.append(document.createElement('br'));
 
 }
 
-const addProductField = () => { }
+const addProductField = () => {
+    
+ }
 function getItems() {
     fetch(uri)
         .then(response => response.json())

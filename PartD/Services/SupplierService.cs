@@ -1,26 +1,18 @@
 
 using PartD.Interfaces;
 using PartD.Models;
-using MongoDB.Driver;
-using System.Collections.ObjectModel;
+
 
 namespace PartD.Services;
 
 public class SupplierService : IService<Supplier>
 {
-    public async Task<List<Supplier>> GetSupplier()
-    {
-        MongoClient client = new MongoClient("mongodb+srv://leahl11730:Lea0195!@cluster0.qxme0.mongodb.net/");
-        var database = client.GetDatabase("Groceries");
-        IMongoCollection<Supplier> Collection = database.GetCollection<Supplier>("Suppliers");
-        return await Collection.Find(_ => true).ToListAsync();
-    }
-    List<Supplier> _suppliers;// = new List<Supplier>();
+
+    List<Supplier> _suppliers;
 
     public SupplierService()
     {
-        _suppliers = GetSupplier().Result;
-        Console.WriteLine($"Connected to MongoDB ");
+        _suppliers = MongoService.getCollection<Supplier>("Suppliers").Result;
         foreach (var supplier in _suppliers)
         {
             Console.WriteLine($"Supplier: {supplier}");
@@ -29,9 +21,9 @@ public class SupplierService : IService<Supplier>
     }
     public List<Supplier> GetAll() => _suppliers;
 
-    public Supplier Get(string Id)
+    public Supplier Get(string phone)
     {
-        return _suppliers.FirstOrDefault(s => s._id == Id);
+        return _suppliers.FirstOrDefault(s => s.Phone == phone);
     }
 
     public void Insert(Supplier newItem)
