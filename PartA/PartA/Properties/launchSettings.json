@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PartA": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Lea\\Home exercise\\files\\logs.txt\"\r\n10"
+    }
+  }
+}

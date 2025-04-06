@@ -1,0 +1,7 @@
+C:\Lea\Home exercise\PartA\PartASectionB\bin\Debug\PartASectionB.exe.config
+C:\Lea\Home exercise\PartA\PartASectionB\bin\Debug\PartASectionB.exe
+C:\Lea\Home exercise\PartA\PartASectionB\bin\Debug\PartASectionB.pdb
+C:\Lea\Home exercise\PartA\PartASectionB\obj\Debug\PartASectionB.csproj.AssemblyReference.cache
+C:\Lea\Home exercise\PartA\PartASectionB\obj\Debug\PartASectionB.csproj.CoreCompileInputs.cache
+C:\Lea\Home exercise\PartA\PartASectionB\obj\Debug\PartASectionB.exe
+C:\Lea\Home exercise\PartA\PartASectionB\obj\Debug\PartASectionB.pdb
