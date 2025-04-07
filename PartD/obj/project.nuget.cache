@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1ZigTVhgRMs=",
+  "dgSpecHash": "NZUqfKiRjZM=",
   "success": true,
-  "projectFilePath": "C:\\Lea\\Home exercise\\PartD\\PartD.csproj",
+  "projectFilePath": "C:\\Lea\\HomeExercise\\PartD\\PartD.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\leahl\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\leahl\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.3\\microsoft.aspnetcore.openapi.8.0.3.nupkg.sha512",

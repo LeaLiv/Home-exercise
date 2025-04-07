@@ -9,10 +9,11 @@ public class SupplierService : IService<Supplier>
 {
 
     List<Supplier> _suppliers;
+    const string COLLECTION_NAME = "Suppliers";
 
     public SupplierService()
     {
-        _suppliers = MongoService.getCollection<Supplier>("Suppliers").Result;
+        _suppliers = MongoService.getCollection<Supplier>(COLLECTION_NAME).Result;
         foreach (var supplier in _suppliers)
         {
             Console.WriteLine($"Supplier: {supplier}");
@@ -29,6 +30,8 @@ public class SupplierService : IService<Supplier>
     public void Insert(Supplier newItem)
     {
         _suppliers.Add(newItem);
+        MongoService.InsertOne(newItem, COLLECTION_NAME).Wait();
+
     }
 }
 public static class SupplierUtilities

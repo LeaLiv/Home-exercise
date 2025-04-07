@@ -1,20 +1,20 @@
 {
   "Files": [
     {
-      "Id": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\css\\site.css",
+      "Id": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\index.html",
+      "Id": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\home.html",
+      "PackagePath": "staticwebassets\\home.html"
+    },
+    {
+      "Id": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\js\\site.js",
+      "Id": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
-    },
-    {
-      "Id": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\ןמגק.html",
-      "PackagePath": "staticwebassets\\ןמגק.html"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.PartD.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",

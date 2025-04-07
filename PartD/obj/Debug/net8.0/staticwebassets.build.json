@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MXmk7kf3mxGzwsvK6wy2jvQbTQEpOoYBMWoNGzrqA08=",
+  "Hash": "m0wXWq03863ZWRz4ObY9qYMVhfQS/pEtTJGOnxxyYpY=",
   "Source": "PartD",
   "BasePath": "_content/PartD",
   "Mode": "Default",
@@ -10,38 +10,17 @@
     {
       "Name": "PartD\\wwwroot",
       "Source": "PartD",
-      "ContentRoot": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\",
+      "ContentRoot": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\",
       "BasePath": "_content/PartD",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\ןמגק.html",
+      "Identity": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\css\\site.css",
       "SourceId": "PartD",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\",
-      "BasePath": "_content/PartD",
-      "RelativePath": "ןמגק#[.{fingerprint}]?.html",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "0wzde2pbld",
-      "Integrity": "8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\ןמגק.html"
-    },
-    {
-      "Identity": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\css\\site.css",
-      "SourceId": "PartD",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\",
+      "ContentRoot": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\",
       "BasePath": "_content/PartD",
       "RelativePath": "css/site#[.{fingerprint}]?.css",
       "AssetKind": "All",
@@ -59,10 +38,31 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\index.html",
+      "Identity": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\home.html",
       "SourceId": "PartD",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\",
+      "ContentRoot": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\",
+      "BasePath": "_content/PartD",
+      "RelativePath": "home#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0wzde2pbld",
+      "Integrity": "8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\home.html"
+    },
+    {
+      "Identity": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\index.html",
+      "SourceId": "PartD",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\",
       "BasePath": "_content/PartD",
       "RelativePath": "index#[.{fingerprint}]?.html",
       "AssetKind": "All",
@@ -80,10 +80,10 @@
       "OriginalItemSpec": "wwwroot\\index.html"
     },
     {
-      "Identity": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\js\\site.js",
+      "Identity": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\js\\site.js",
       "SourceId": "PartD",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\",
+      "ContentRoot": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\",
       "BasePath": "_content/PartD",
       "RelativePath": "js/site#[.{fingerprint}]?.js",
       "AssetKind": "All",
@@ -103,90 +103,8 @@
   ],
   "Endpoints": [
     {
-      "Route": "ןמגק.0wzde2pbld.html",
-      "AssetFile": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\ןמגק.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1222"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 18 Oct 2021 21:14:56 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "0wzde2pbld"
-        },
-        {
-          "Name": "label",
-          "Value": "ןמגק.html"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ="
-        }
-      ]
-    },
-    {
-      "Route": "ןמגק.html",
-      "AssetFile": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\ןמגק.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1222"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 18 Oct 2021 21:14:56 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ="
-        }
-      ]
-    },
-    {
       "Route": "css/site.css",
-      "AssetFile": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\css\\site.css",
+      "AssetFile": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -223,7 +141,7 @@
     },
     {
       "Route": "css/site.zoxlk5se5i.css",
-      "AssetFile": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\css\\site.css",
+      "AssetFile": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -267,8 +185,90 @@
       ]
     },
     {
+      "Route": "home.0wzde2pbld.html",
+      "AssetFile": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\home.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1222"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 18 Oct 2021 21:14:56 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0wzde2pbld"
+        },
+        {
+          "Name": "label",
+          "Value": "home.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ="
+        }
+      ]
+    },
+    {
+      "Route": "home.html",
+      "AssetFile": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\home.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1222"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 18 Oct 2021 21:14:56 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8Fz0UCUrVvsKFjiuGXhlswE3UpPaujWpswhBhfrPDzQ="
+        }
+      ]
+    },
+    {
       "Route": "index.btpxcp2bwj.html",
-      "AssetFile": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\index.html",
+      "AssetFile": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\index.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -313,7 +313,7 @@
     },
     {
       "Route": "index.html",
-      "AssetFile": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\index.html",
+      "AssetFile": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\index.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -350,7 +350,7 @@
     },
     {
       "Route": "js/site.etpo5q6pgl.js",
-      "AssetFile": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\js\\site.js",
+      "AssetFile": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\js\\site.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -395,7 +395,7 @@
     },
     {
       "Route": "js/site.js",
-      "AssetFile": "C:\\Lea\\Home exercise\\PartD\\wwwroot\\js\\site.js",
+      "AssetFile": "C:\\Lea\\HomeExercise\\PartD\\wwwroot\\js\\site.js",
       "Selectors": [],
       "ResponseHeaders": [
         {

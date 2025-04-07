@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 // builder.Services.AddOpenApi();
 
 builder.Services.AddSupplier();
+builder.Services.AddOrderService();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
