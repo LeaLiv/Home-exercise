@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocer details</title>
+    <link rel="stylesheet" href="./css/site.css">
+</head>
+<body>
+    <form id="enterForm" action="javascript:void(0)" onsubmit="enterSystem()">
+        <input type="text" id="grocer-id" placeholder="הכנס מזהה בעל מכולת" required>
+        <input type="submit" value="כניסת בעל מכולת">
+
+    </form>
+    <div id="grocerPage" style="display: none;">
+        <table>
+            <tr>
+                <th>פרטי ספק</th>
+                <th>שם איש הקשר</th>
+                <th>מוצרים</th>
+            </tr>
+            <tbody id="supplierDetails"> </tbody>
+        </table>
+        <button onclick="makeOrder()">בצע הזמנה</button>
+    </div>
+</body>
+<script src="./js/grocer.js"></script>
+</html>

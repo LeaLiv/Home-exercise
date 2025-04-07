@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>supplier UI</title>
+    <link rel="stylesheet" href="./css/site.css">
+</head>
+
+<body>
+    <h1>כניסת ספקים</h1>
+    <div id="enterForm">
+        <form action="javascript:void(0)" onsubmit="enterSystem()">
+            <input type="text" id="supplier-name" placeholder="שם חברה" required>
+            <input type="text" id="supplier-phone" placeholder="טלפון" required>
+            <input type="submit" value="כניסת ספק רשום">
+
+        </form> <br>
+        <button onclick="showNewSupplierDetails()" id="newSupplierInfoButton"> כניסת ספק חדש</button>
+        <form action="javascript:void(0)" id="newSupplierInfo" onsubmit="addSupplier()">
+            <button action="javascript:void(0)" id="new-supplier-product-button" style="display: none;"
+                onclick="addProductField()" type="button">הוספת מוצר</button>
+        </form>
+    </div>
+   <a href="./grocerDetails.html"> <button onclick="" >כניסת מכולות</button></a>
+
+
+</body>
+<script src="./js/site.js"></script>
+
+</html>
