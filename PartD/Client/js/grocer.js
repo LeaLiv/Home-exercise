@@ -16,9 +16,9 @@ const changeStatus = async (order) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ "status": status.innerText })
-    }).then(response => console.log("succeed"))   
-    .catch(error => console.error('Unable to update item.', error));
-} 
+    }).then(response => console.log("succeed"))
+        .catch(error => console.error('Unable to update item.', error));
+}
 
 const enterSystem = () => {
     const enterForm = document.getElementById('enterForm');
@@ -51,20 +51,16 @@ const displayOrders = () => {
         .catch(error => console.error('Unable to get items.', error));
 }
 const _displayOrders = (data) => {
-    const displayOrdersTable=document.getElementById('displayOrdersTable');
-    displayOrdersTable.style.display='block';
+    const displayOrdersTable = document.getElementById('displayOrdersTable');
+    displayOrdersTable.style.display = 'block';
     const tBody = document.getElementById('ordersDetails');
     tBody.innerHTML = "";
     console.log(data);
     data.forEach(item => {
-
         let tr = tBody.insertRow();
         let td1 = tr.insertCell(0);
         td1.innerText = item.supplierId;
-
         let td2 = tr.insertCell(1);
-        // td2.innerText = item.
-        // ;
         let list = document.createElement('ul');
         item.products.forEach(product => {
             let li = document.createElement('li');
@@ -75,7 +71,6 @@ const _displayOrders = (data) => {
         let td3 = tr.insertCell(2);
         let nav = document.createElement('nav');
         nav.innerText = item.status;
-        // td3.appendChild(document.createElement('p').innerHTML= item.status);
         td3.appendChild(nav);
         td3.id = `status_${item._id}`;
         td3.appendChild(document.createElement('br'));
@@ -95,29 +90,25 @@ const _displayItems = (data) => {
     tBody.innerHTML = "";
 
     data.forEach(item => {
-
         let tr = tBody.insertRow();
-
         let td1 = tr.insertCell(0);
-
         td1.id = `${item._id}`;
         td1.innerText = item.companyName;
         td1.innerText += `\n `;
         td1.innerText += item.phone;
-
         let td2 = tr.insertCell(1);
         td2.innerText = item.contactPerson;
-
         let td3 = tr.insertCell(2);
         item.products.forEach(product => {
             let li = document.createElement('li');
-            li.innerText = `${product.productName}  `;
+            let p = document.createElement('span');
+            p.innerText = `${product.productName}  `;
+            li.appendChild(p);
             let input = document.createElement('input');
             input.type = 'number';
             input.value = product.minQuantity;
             input.id = `product_${product.productName}`;
             input.min = product.minQuantity;
-
             li.appendChild(input);
             let isWantToOrderItem = document.createElement('input');
             isWantToOrderItem.type = 'checkbox';
@@ -131,7 +122,6 @@ const _displayItems = (data) => {
         })
 
     });
-
 }
 
 const makeOrder = () => {
@@ -144,9 +134,10 @@ const makeOrder = () => {
         products.forEach(product => {
             let isWantToOrder = product.querySelector('#isWantToOrder');
             if (isWantToOrder.checked) {
-                let productName = product.closest('li').innerText;
-                let pricePerItem = product.querySelector('span').innerHTML;
-                // console.log(document.createElement('span'));
+                let productName = product.closest('li');
+                productName = productName.querySelector('span').innerText;
+                console.log(productName);
+                let pricePerItem = product.querySelectorAll('span')[1].innerHTML;
                 pricePerItem = pricePerItem.replace('₪', '')
                 pricePerItem = Number(pricePerItem, 10);
                 let minQuantity = product.querySelector('input').value;
@@ -169,7 +160,6 @@ const makeOrder = () => {
                 status: "ממתינה"
             }
             orderList.push(orderItem);
-
         }
 
     })

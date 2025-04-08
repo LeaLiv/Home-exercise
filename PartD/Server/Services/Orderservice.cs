@@ -11,10 +11,6 @@ public class OrderService:IOrderService
     public OrderService()
     {
         _orders = MongoService.getCollection<Order>(COLLECTION_NAME).Result;
-        foreach (var order in _orders)
-        {
-            Console.WriteLine($"Order: {order}");
-        }
     }
     public Order Get(string Id)=> _orders.FirstOrDefault(o => o._id == Id);
 
@@ -22,7 +18,7 @@ public class OrderService:IOrderService
 
     public List<Order> GetAllItemsByfilter(Predicate<Order> filter)
     {
-        Console.WriteLine($"Filter: {filter}");
+
         return _orders.FindAll(o => filter(o));
     }
 

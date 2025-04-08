@@ -55,10 +55,7 @@ const _displayItems = (data) => {
         let tr = tBody.insertRow();
         let td1 = tr.insertCell(0);
         td1.innerText = item.grocerId;
-
         let td2 = tr.insertCell(1);
-        // td2.innerText = item.
-        // ;
         let list = document.createElement('ul');
         item.products.forEach(product => {
             let li = document.createElement('li');
@@ -69,7 +66,6 @@ const _displayItems = (data) => {
         let td3 = tr.insertCell(2);
         let nav = document.createElement('nav');
         nav.innerText = item.status;
-        // td3.appendChild(document.createElement('p').innerHTML= item.status);
         td3.appendChild(nav);
         td3.id = `status_${item._id}`;
         td3.appendChild(document.createElement('br'));
@@ -86,5 +82,3 @@ const _displayItems = (data) => {
 }
 window.onload = getOrders;
 
-{/* <button id="changeStatus" type="button" 
-    onclick="changeStatus()" value="ממתינה">שינוי סטטוס</button> */}

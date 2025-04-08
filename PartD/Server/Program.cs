@@ -19,6 +19,7 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 }));
 builder.Services.AddSupplier();
 builder.Services.AddOrderService();
+builder.Services.AddGoods();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

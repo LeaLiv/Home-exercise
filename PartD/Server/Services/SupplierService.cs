@@ -16,7 +16,7 @@ public class SupplierService : IService<Supplier>
         _suppliers = MongoService.getCollection<Supplier>(COLLECTION_NAME).Result;
         foreach (var supplier in _suppliers)
         {
-            Console.WriteLine($"Supplier: {supplier}");
+            // Console.WriteLine($"Supplier: {supplier}");
         }
 
     }
