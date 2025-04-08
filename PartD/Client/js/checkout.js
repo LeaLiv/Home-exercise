@@ -16,7 +16,6 @@ const sendOrder=()=>{
             })
         }).then(response => console.log("succeed"))
         .catch(error => console.error('Unable to update item.', error));
-        
-   
-    // fetch(`${uri}/order/Checkout`)
+
 }
+//example page for testing checkout and automatic order

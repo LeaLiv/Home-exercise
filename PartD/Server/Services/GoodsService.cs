@@ -2,15 +2,11 @@
 using PartD.Interfaces;
 using PartD.Models;
 
-
 namespace PartD.Services;
-
 public class GoodsService : IGoodsService
 {
-
     List<Goods> _goods;
     const string COLLECTION_NAME = "Goods";
-
     public GoodsService()
     {
         _goods = MongoService.getCollection<Goods>(COLLECTION_NAME).Result;
@@ -27,13 +23,10 @@ public class GoodsService : IGoodsService
     {
         _goods.Add(newItem);
         MongoService.InsertOne(newItem, COLLECTION_NAME).Wait();
-
     }
-
     public void Update(string itemId, string field, string value)
     {
         MongoService.UpdateOne<Goods>(itemId, value, field, COLLECTION_NAME).Wait();
-        Console.WriteLine($"Updated Goods: {itemId} - {value}");
     }
 }
 public static class GoodsUtilities

@@ -7,7 +7,6 @@ namespace PartD.Models
     public class Supplier
     {
         [BsonRepresentation(BsonType.ObjectId)]
-        // [BsonId]
         public string _id { get; set; }
         [BsonElement("companyName")]
         public string CompanyName { get; set; }

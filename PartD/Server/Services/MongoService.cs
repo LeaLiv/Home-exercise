@@ -3,7 +3,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace PartD.Services;
-
 public class MongoService
 {
     static MongoClient client = new MongoClient("mongodb+srv://leahl11730:Lea0195!@cluster0.qxme0.mongodb.net/");
@@ -34,10 +33,9 @@ public class MongoService
     public static async Task<UpdateResult> UpdateOne<T>(string _id, string value, string fieldName, string collectionName)
     {
         var objectId = new ObjectId(_id);
-        Console.WriteLine($"Updating {typeof(T).Name} with ID: {_id}, Field: {fieldName}, Value: {value}");
         IMongoCollection<T> Collection = database.GetCollection<T>(collectionName);
         var filter = Builders<T>.Filter.Eq("_id", objectId); 
-        var update = Builders<T>.Update.Set(fieldName, value); // Example update operation
+        var update = Builders<T>.Update.Set(fieldName, value); 
         var result = await Collection.UpdateOneAsync(filter, update);
         Console.WriteLine($"Updated {result.ModifiedCount} document(s).");
          return result;

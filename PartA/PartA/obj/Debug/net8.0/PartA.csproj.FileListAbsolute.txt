@@ -13,3 +13,32 @@ C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\refint\PartA.dll
 C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.pdb
 C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\PartA.genruntimeconfig.cache
 C:\Lea\Home exercise\PartA\PartA\obj\Debug\net8.0\ref\PartA.dll
+D:\TargilLea\PartA\PartA\obj\Debug\net8.0\PartA.GeneratedMSBuildEditorConfig.editorconfig
+D:\TargilLea\PartA\PartA\obj\Debug\net8.0\PartA.AssemblyInfoInputs.cache
+D:\TargilLea\PartA\PartA\obj\Debug\net8.0\PartA.AssemblyInfo.cs
+D:\TargilLea\PartA\PartA\obj\Debug\net8.0\PartA.csproj.CoreCompileInputs.cache
+D:\TargilLea\PartA\PartA\obj\Debug\net8.0\PartA.dll
+D:\TargilLea\PartA\PartA\obj\Debug\net8.0\refint\PartA.dll
+D:\TargilLea\PartA\PartA\obj\Debug\net8.0\PartA.pdb
+D:\TargilLea\PartA\PartA\bin\Debug\net8.0\PartA.exe
+D:\TargilLea\PartA\PartA\bin\Debug\net8.0\PartA.deps.json
+D:\TargilLea\PartA\PartA\bin\Debug\net8.0\PartA.runtimeconfig.json
+D:\TargilLea\PartA\PartA\bin\Debug\net8.0\PartA.dll
+D:\TargilLea\PartA\PartA\bin\Debug\net8.0\PartA.pdb
+D:\TargilLea\PartA\PartA\obj\Debug\net8.0\PartA.genruntimeconfig.cache
+D:\TargilLea\PartA\PartA\obj\Debug\net8.0\ref\PartA.dll
+C:\Lea\HomeExercise\PartA\PartA\bin\Debug\net8.0\PartA.exe
+C:\Lea\HomeExercise\PartA\PartA\bin\Debug\net8.0\PartA.deps.json
+C:\Lea\HomeExercise\PartA\PartA\bin\Debug\net8.0\PartA.runtimeconfig.json
+C:\Lea\HomeExercise\PartA\PartA\bin\Debug\net8.0\PartA.dll
+C:\Lea\HomeExercise\PartA\PartA\bin\Debug\net8.0\PartA.pdb
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\PartA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\PartA.AssemblyInfoInputs.cache
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\PartA.AssemblyInfo.cs
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\PartA.csproj.CoreCompileInputs.cache
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\PartA.sourcelink.json
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\PartA.dll
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\refint\PartA.dll
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\PartA.pdb
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\PartA.genruntimeconfig.cache
+C:\Lea\HomeExercise\PartA\PartA\obj\Debug\net8.0\ref\PartA.dll

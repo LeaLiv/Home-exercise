@@ -12,11 +12,11 @@ namespace partD.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string _id { get; set; }
         [BsonElement("SupplierId")]
-        public string SupplierId { get; set; } // ID of the supplier
+        public string SupplierId { get; set; }
         [BsonElement("GrocerId")]
-        public string GrocerId { get; set; } // ID of the grocer
+        public string GrocerId { get; set; } 
         [BsonElement("status")]
-        public string status { get; set; } // Status of the order (e.g., "Pending", "Completed")
+        public string status { get; set; } 
         [BsonElement("Products")]
         public Product[] Products { get; set; }
     }

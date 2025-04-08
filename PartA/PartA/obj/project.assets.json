@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Lea\\Home exercise\\PartA\\PartA\\PartA.csproj",
+      "projectUniqueName": "C:\\Lea\\HomeExercise\\PartA\\PartA\\PartA.csproj",
       "projectName": "PartA",
-      "projectPath": "C:\\Lea\\Home exercise\\PartA\\PartA\\PartA.csproj",
+      "projectPath": "C:\\Lea\\HomeExercise\\PartA\\PartA\\PartA.csproj",
       "packagesPath": "C:\\Users\\leahl\\.nuget\\packages\\",
-      "outputPath": "C:\\Lea\\Home exercise\\PartA\\PartA\\obj\\",
+      "outputPath": "C:\\Lea\\HomeExercise\\PartA\\PartA\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

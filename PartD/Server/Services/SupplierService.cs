@@ -7,18 +7,12 @@ namespace PartD.Services;
 
 public class SupplierService : IService<Supplier>
 {
-
     List<Supplier> _suppliers;
     const string COLLECTION_NAME = "Suppliers";
 
     public SupplierService()
     {
         _suppliers = MongoService.getCollection<Supplier>(COLLECTION_NAME).Result;
-        foreach (var supplier in _suppliers)
-        {
-            // Console.WriteLine($"Supplier: {supplier}");
-        }
-
     }
     public List<Supplier> GetAll() => _suppliers;
 

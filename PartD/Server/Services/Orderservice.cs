@@ -4,15 +4,15 @@ using PartD.Interfaces;
 
 namespace PartD.Services;
 
-public class OrderService:IOrderService
-{       
+public class OrderService : IOrderService
+{
     List<Order> _orders;
     const string COLLECTION_NAME = "Orders";
     public OrderService()
     {
         _orders = MongoService.getCollection<Order>(COLLECTION_NAME).Result;
     }
-    public Order Get(string Id)=> _orders.FirstOrDefault(o => o._id == Id);
+    public Order Get(string Id) => _orders.FirstOrDefault(o => o._id == Id);
 
     public List<Order> GetAll() => _orders;
 
@@ -27,9 +27,9 @@ public class OrderService:IOrderService
         _orders.Add(newItem);
         MongoService.InsertOne(newItem, COLLECTION_NAME).Wait();
     }
-    public void UpdateStatus(string orderId,string status)
+    public void UpdateStatus(string orderId, string status)
     {
-         MongoService.UpdateOne<Order>(orderId,status,"status", COLLECTION_NAME).Wait();
+        MongoService.UpdateOne<Order>(orderId, status, "status", COLLECTION_NAME).Wait();
     }
 }
 public static class OrderUtilities

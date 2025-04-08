@@ -5,3 +5,43 @@ C:\Lea\Home exercise\PartA\PartASectionB\obj\Debug\PartASectionB.csproj.Assembly
 C:\Lea\Home exercise\PartA\PartASectionB\obj\Debug\PartASectionB.csproj.CoreCompileInputs.cache
 C:\Lea\Home exercise\PartA\PartASectionB\obj\Debug\PartASectionB.exe
 C:\Lea\Home exercise\PartA\PartASectionB\obj\Debug\PartASectionB.pdb
+D:\TargilLea\PartA\PartASectionB\bin\Debug\PartASectionB.exe.config
+D:\TargilLea\PartA\PartASectionB\bin\Debug\PartASectionB.exe
+D:\TargilLea\PartA\PartASectionB\bin\Debug\PartASectionB.pdb
+D:\TargilLea\PartA\PartASectionB\obj\Debug\PartASectionB.csproj.AssemblyReference.cache
+D:\TargilLea\PartA\PartASectionB\obj\Debug\PartASectionB.csproj.CoreCompileInputs.cache
+D:\TargilLea\PartA\PartASectionB\obj\Debug\PartASectionB.exe
+D:\TargilLea\PartA\PartASectionB\obj\Debug\PartASectionB.pdb
+D:\TargilLea\PartA\PartASectionB\obj\Debug\PartASectionB.csproj.SuggestedBindingRedirects.cache
+D:\TargilLea\PartA\PartASectionB\obj\Debug\PartASectionB.exe.config
+D:\TargilLea\PartA\PartASectionB\bin\Debug\IronCompress.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\Snappier.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Buffers.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.IO.Pipelines.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Memory.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Numerics.Vectors.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Text.Encodings.Web.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Text.Json.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Threading.Tasks.Extensions.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.ValueTuple.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\ZstdSharp.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\Snappier.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Buffers.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.IO.Pipelines.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Memory.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Numerics.Vectors.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Text.Encodings.Web.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Text.Json.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.Threading.Tasks.Extensions.xml
+D:\TargilLea\PartA\PartASectionB\bin\Debug\System.ValueTuple.xml
+D:\TargilLea\PartA\PartASectionB\obj\Debug\PartASec.097B38E2.Up2Date
+D:\TargilLea\PartA\PartASectionB\bin\Debug\ParquetSharpNative.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\Apache.Arrow.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\ParquetSharp.dll
+D:\TargilLea\PartA\PartASectionB\bin\Debug\ParquetSharp.xml

@@ -1,0 +1,2995 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ParquetSharp</name>
+    </assembly>
+    <members>
+        <member name="T:ParquetSharp.AadPrefixVerifier">
+            <summary>
+            Verifies identity(AAD Prefix) of individual file, or of file collection in a data set.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.AadPrefixVerifier.Verify(System.String)">
+            <summary>
+            Verify the AAD file prefix.
+            Throw exception if the prefix is not okay.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.AadPrefixVerifier.CreateGcHandle">
+            <summary>
+            The native code owns a GC handle on the given instance of AadPrefixVerifier.
+            This is the reverse from the rest of ParquetSharp where C# owns a native handle into arrow::parquet.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.AesKey">
+            <summary>
+            Internal fixed size structure for easily moving AES keys to and from C++.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Arrow.ArrowReaderProperties">
+            <summary>
+            Configures Arrow specific options for reading Parquet files.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowReaderProperties.GetDefault">
+            <summary>
+            Create a new <see cref="T:ParquetSharp.Arrow.ArrowReaderProperties"/> with default values.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowReaderProperties.UseThreads">
+            <summary>
+            Whether to use the IO thread pool to parse columns in parallel.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowReaderProperties.BatchSize">
+            <summary>
+            The maximum number of rows to read into a chunk or record batch.
+            Batches may contain fewer rows when there are no more rows in the file.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowReaderProperties.GetReadDictionary(System.Int32)">
+            <summary>
+            Get whether to read a particular column as dictionary encoded.
+            </summary>
+            <param name="columnIndex">The index of the column</param>
+            <returns>Whether this column will be read as dictionary encoded</returns>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowReaderProperties.SetReadDictionary(System.Int32,System.Boolean)">
+            <summary>
+            Set whether to read a particular column as dictionary encoded.
+            This is only supported for columns with a Parquet physical type of
+            BYTE_ARRAY, such as string or binary types.
+            </summary>
+            <param name="columnIndex">The index of the column</param>
+            <param name="readDictionary">Whether to read this column as dictionary encoded</param>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowReaderProperties.PreBuffer">
+            <summary>
+            When enabled, the Arrow reader will pre-buffer necessary regions
+            of the file in-memory. This is intended to improve performance on
+            high-latency filesystems (e.g. Amazon S3).
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowReaderProperties.CoerceInt96TimestampUnit">
+            <summary>
+            The timestamp unit to use for deprecated INT96-encoded timestamps
+            (default is nanoseconds).
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Arrow.ArrowWriterProperties">
+            <summary>
+            Configures Arrow specific options for writing Parquet files
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Arrow.ArrowWriterProperties.WriterEngineVersion">
+            <summary>
+            Versions of the Arrow writing engine
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterProperties.GetDefault">
+            <summary>
+            Create a new <see cref="T:ParquetSharp.Arrow.ArrowWriterProperties"/> with default values.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowWriterProperties.CoerceTimestampsEnabled">
+            <summary>
+            Whether timestamps will be coerced to a specified unit
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowWriterProperties.CoerceTimestampsUnit">
+            <summary>
+            The unit timestamps will be coerced to if timestamp coercion is enabled
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowWriterProperties.TruncatedTimestampsAllowed">
+            <summary>
+            Whether loss of data when truncating timestamps will be allowed (won't raise an error)
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowWriterProperties.StoreSchema">
+            <summary>
+            Whether binary serialized Arrow schema will be written to the file
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowWriterProperties.CompliantNestedTypes">
+             <summary>
+             Whether nested types are named according to the parquet specification.
+            
+             Older versions of arrow wrote out field names for nested lists based on the name
+             of the field.  According to the parquet specification they should always be "element".
+             </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowWriterProperties.EngineVersion">
+             <summary>
+             The version of the underlying engine used to write Arrow data to Parquet
+            
+             V2 is currently the latest V1 is considered deprecated but left in
+             place in case there are bugs detected in V2.
+             </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.ArrowWriterProperties.UseThreads">
+            <summary>
+            Whether to use multiple threads to write columns in parallel
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder">
+            <summary>
+            Builder for ArrowWriterProperties.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.#ctor">
+            <summary>
+            Create a new ArrowWriterPropertiesBuilder with default options
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.Build">
+            <summary>
+            Create new ArrowWriterProperties using the configured builder
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.CoerceTimestamps(Apache.Arrow.Types.TimeUnit)">
+             <summary>
+             Coerce all timestamps to the specified time unit.
+            
+             For Parquet versions 1.0 and 2.4, nanoseconds are cast to microseconds.
+             </summary>
+             <param name="unit">time unit to coerce to</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.AllowTruncatedTimestamps">
+             <summary>
+             Allow loss of data when truncating timestamps.
+            
+             This is disallowed by default and an error will be returned.
+             </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.DisallowTruncatedTimestamps">
+            <summary>
+            Disallow loss of data when truncating timestamps (default).
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.StoreSchema">
+            <summary>
+            EXPERIMENTAL: Write binary serialized Arrow schema to the file,
+            to enable certain read options (like "read_dictionary") to be set
+            automatically.
+            This also controls whether the metadata from the Arrow schema will be written
+            to Parquet key-value metadata.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.EnableCompliantNestedTypes">
+             <summary>
+             When enabled, will not preserve Arrow field names for list types.
+            
+             Instead of using the field names Arrow uses for the values array of
+             list types (default "item"), will use "element", as is specified in
+             the Parquet spec.
+            
+             This is enabled by default.
+             </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.DisableCompliantNestedTypes">
+            <summary>
+            Preserve Arrow list field names
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.EngineVersion(ParquetSharp.Arrow.ArrowWriterProperties.WriterEngineVersion)">
+            <summary>
+            Set the version of the Parquet writer engine.
+            </summary>
+            <param name="version">The engine version to use</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.ArrowWriterPropertiesBuilder.UseThreads(System.Boolean)">
+             <summary>
+             Set whether to use multiple threads to write columns in parallel in the buffered row group mode.
+            
+             WARNING: If writing multiple files in parallel, deadlock may occur if use_threads is true.
+             Please disable it in this case.
+            
+             Default is false.
+             </summary>
+             <param name="useThreads">Whether to use threads</param>
+        </member>
+        <member name="T:ParquetSharp.Arrow.FileReader">
+            <summary>
+            Reads Parquet files using the Arrow format.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileReader.#ctor(System.String,ParquetSharp.ReaderProperties,ParquetSharp.Arrow.ArrowReaderProperties)">
+            <summary>
+            Create a new Arrow FileReader for a file at the specified path
+            </summary>
+            <param name="path">Path to the Parquet file</param>
+            <param name="properties">Parquet reader properties</param>
+            <param name="arrowProperties">Arrow specific reader properties</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileReader.#ctor(ParquetSharp.IO.RandomAccessFile,ParquetSharp.ReaderProperties,ParquetSharp.Arrow.ArrowReaderProperties)">
+            <summary>
+            Create a new Arrow FileReader for a file object
+            </summary>
+            <param name="file">The file to read</param>
+            <param name="properties">Parquet reader properties</param>
+            <param name="arrowProperties">Arrow specific reader properties</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if the file or its handle are null</exception>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileReader.#ctor(System.IO.Stream,ParquetSharp.ReaderProperties,ParquetSharp.Arrow.ArrowReaderProperties,System.Boolean)">
+            <summary>
+            Create a new Arrow FileReader for a .NET stream
+            </summary>
+            <param name="stream">The stream to read</param>
+            <param name="properties">Parquet reader properties</param>
+            <param name="arrowProperties">Arrow specific reader properties</param>
+            <param name="leaveOpen">Whether to keep the stream open after the reader is closed</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if the file or its handle are null</exception>
+        </member>
+        <member name="P:ParquetSharp.Arrow.FileReader.Schema">
+            <summary>
+            The Arrow schema of the file being read
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.FileReader.NumRowGroups">
+            <summary>
+            The number of row groups in the file
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileReader.GetRecordBatchReader(System.Int32[],System.Int32[])">
+            <summary>
+            Get a record batch reader for the file data
+            </summary>
+            <param name="rowGroups">The indices of row groups to read data from</param>
+            <param name="columns">The indices of columns to read, based on the schema</param>
+            <returns>An Arrow array stream reader</returns>
+        </member>
+        <member name="P:ParquetSharp.Arrow.FileReader.ParquetReader">
+            <summary>
+            Get the underlying ParquetFileReader used by this Arrow FileReader
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.FileReader.SchemaManifest">
+            <summary>
+            Get the schema manifest, which describes the relationship between the Arrow schema and Parquet schema
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Arrow.FileWriter">
+             <summary>
+             Writes Parquet files using Arrow format data
+            
+             This may be used to write whole tables or record batches at once,
+             using the WriteTable or WriteRecordBatch methods.
+            
+             You can also buffer writes of record batches to allow writing multiple
+             record batches within a Parquet row group, using WriteBufferedRecordBatch
+             and NewBufferedRowGroup to start a new row group.
+            
+             For more control over writing, you can create a new row group with NewRowGroup,
+             then write all columns for the row group with the WriteColumn method.
+             All required columns must be written before starting the next row group
+             or closing the file.
+             </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.#ctor(System.String,Apache.Arrow.Schema,ParquetSharp.WriterProperties,ParquetSharp.Arrow.ArrowWriterProperties)">
+            <summary>
+            Create a new Arrow FileWriter that writes to the specified path
+            </summary>
+            <param name="path">Path to the Parquet file to write</param>
+            <param name="schema">Arrow schema for the data to be written</param>
+            <param name="properties">Parquet writer properties</param>
+            <param name="arrowProperties">Arrow specific writer properties</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.#ctor(ParquetSharp.IO.OutputStream,Apache.Arrow.Schema,ParquetSharp.WriterProperties,ParquetSharp.Arrow.ArrowWriterProperties)">
+            <summary>
+            Create a new Arrow FileWriter that writes to the specified output stream
+            </summary>
+            <param name="outputStream">Stream to write to</param>
+            <param name="schema">Arrow schema for the data to be written</param>
+            <param name="properties">Parquet writer properties</param>
+            <param name="arrowProperties">Arrow specific writer properties</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.#ctor(System.IO.Stream,Apache.Arrow.Schema,ParquetSharp.WriterProperties,ParquetSharp.Arrow.ArrowWriterProperties,System.Boolean)">
+            <summary>
+            Create a new Arrow FileWriter that writes to a .NET stream
+            </summary>
+            <param name="stream">Stream to write to</param>
+            <param name="schema">Arrow schema for the data to be written</param>
+            <param name="properties">Parquet writer properties</param>
+            <param name="arrowProperties">Arrow specific writer properties</param>
+            <param name="leaveOpen">Whether to keep the stream open after closing the writer</param>
+        </member>
+        <member name="P:ParquetSharp.Arrow.FileWriter.Schema">
+            <summary>
+            The Arrow schema of the file being written
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.WriteTable(Apache.Arrow.Table,System.Int64)">
+             <summary>
+             Write an Arrow table to Parquet
+            
+             A new row group will be started, and the table data will be chunked into
+             row groups that respect the maximum chunk size specified if required.
+             This method requires that the columns in the table use equal chunking.
+             </summary>
+             <param name="table">The table to write</param>
+             <param name="chunkSize">The maximum length of row groups to write</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.WriteRecordBatch(Apache.Arrow.RecordBatch,System.Int64)">
+             <summary>
+             Write a record batch to Parquet
+            
+             A new row group will be started, and the record batch data will be chunked
+             into row groups that respect the maximum chunk size specified if required.
+             </summary>
+             <param name="recordBatch">The record batch to write</param>
+             <param name="chunkSize">The maximum length of row groups to write</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.WriteBufferedRecordBatch(Apache.Arrow.RecordBatch)">
+             <summary>
+             Write a record batch to Parquet in buffered mode, allowing
+             multiple record batches to be written to the same row group.
+            
+             New row groups are started if the data reaches the MaxRowGroupLength configured
+             in the <see cref="T:ParquetSharp.WriterProperties"/>.
+             </summary>
+             <param name="recordBatch">The record batch to write</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.NewBufferedRowGroup">
+            <summary>
+            Flush buffered data and start a new row group.
+            This can be used to force creation of a new row group when writing data
+            with WriteBufferedRecordBatch.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.NewRowGroup(System.Int64)">
+            <summary>
+            Start writing a new row group to the file. After calling this method,
+            each column required in the schema must be written using WriteColumn
+            before creating a new row group or closing the file.
+            </summary>
+            <param name="chunkSize">The number of rows to be written in this row group</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.WriteColumnChunk(Apache.Arrow.IArrowArray)">
+            <summary>
+            Write a column of data to a row group using an Arrow Array
+            </summary>
+            <param name="array">The array of data for the column</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.WriteColumnChunk(Apache.Arrow.ChunkedArray)">
+            <summary>
+            Write a column of data to a row group using an Arrow ChunkedArray
+            </summary>
+            <param name="array">The array of data for the column</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.Close">
+            <summary>
+            Close the file writer, writing the Parquet footer.
+            This is the recommended way of closing Parquet files, rather than relying on the Dispose() method,
+            as the latter will gobble exceptions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.WriteRecordBatchStream(Apache.Arrow.Ipc.IArrowArrayStream,System.Int64)">
+             <summary>
+             Write record batch stream to Parquet
+            
+             This will build a table internally so requires all data in memory at once.
+             </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.WriteBufferedRecordBatches(Apache.Arrow.Ipc.IArrowArrayStream)">
+            <summary>
+            Write record batches in buffered mode
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Arrow.FileWriter.RecordBatchStream">
+            <summary>
+            A stream of record batches where batches are all stored in memory
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.FileWriter.RecordBatchStream.TableToRecordBatches(Apache.Arrow.Table)">
+            <summary>
+            Convert a table to an array of record batches, assuming all columns are chunked equally
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Arrow.SchemaField">
+            <summary>
+            An Arrow field in a SchemaManifest
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.SchemaField.Field">
+            <summary>
+            The Arrow field associated with this schema field
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.SchemaField.ColumnIndex">
+            <summary>
+            The Parquet column index associated with this field, or -1 if the field
+            does not correspond to a leaf-level column.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.SchemaField.Children">
+            <summary>
+            The child schema fields of this field
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Arrow.SchemaManifest">
+            <summary>
+            Describes the relationship between the Arrow schema and the Parquet schema
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Arrow.SchemaManifest.SchemaFields">
+            <summary>
+            A list of fields in this schema manifest.
+            The field indices correspond to the fields of the associated Arrow Schema.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Arrow.SchemaManifest.SchemaField(System.Int32)">
+            <summary>
+            Get a single schema field
+            </summary>
+            <param name="fieldIndex">The index of the field in the Arrow schema</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.SchemaManifest.GetColumnField(System.Int32)">
+            <summary>
+            Get the schema field for a Parquet column
+            </summary>
+            <param name="columnIndex">The Parquet column index to get the field for</param>
+        </member>
+        <member name="M:ParquetSharp.Arrow.SchemaManifest.GetParent(ParquetSharp.Arrow.SchemaField)">
+            <summary>
+            Get the parent field of a schema field. Returns null for top-level fields
+            </summary>
+            <param name="field">The field to get the parent for</param>
+        </member>
+        <member name="T:ParquetSharp.ArrowStatusCode">
+            <summary>
+            Subset of Arrow StatusCode enums used from ParquetSharp.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.BufferedReader`2">
+            <summary>
+            Buffer the reads from the low-level Parquet API when dealing with array values and multi-level structs.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.BufferedReader`2.ReadValuesAtRepetitionLevel(System.Int16,System.Int16,System.Boolean,System.ReadOnlySpan{`0}@)">
+            <summary>
+            Attempt to read a whole leaf-level array of values at the given repetition level.
+            Returns true if we reached the end of the array or false if the values array is incomplete.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ByteArray">
+            <summary>
+            Represents a Parquet array of contiguous bytes.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ByteArrayReaderCache`2">
+            <summary>
+            Cache duplicated ByteArray / FixedByteArray values when reading and converting them to their logical form.
+            This is particularly useful when reading a lot of duplicate strings.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ByteBuffer">
+            <summary>
+            Pool the ByteArray allocations into few buffers that we can pin, rather than many small byte[].
+            
+            This allows us to more efficiently pass byte-arrays to Parquet native API without having
+            a pinning handle per byte[] (and indirectly, strings).
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ChildParquetHandle">
+            <summary>
+            Holds a pointer to a native object that we don't have direct ownership of,
+            but is a child of another object we own.
+            Required when a C++ class method returns a raw pointer.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Column">
+            <summary>
+            Column properties for constructing schema nodes from C# types.
+            This is a higher-level API not part of apache-parquet-cpp.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Column.#ctor(System.Type,System.String,ParquetSharp.LogicalType)">
+            <summary>
+            Create a column with the given properties.
+            </summary>
+            <param name="logicalSystemType">The <see cref="T:System.Type"/> of the column.</param>
+            <param name="name">The name of the column.</param>
+            <param name="logicalTypeOverride">Optional override for the logical type of the column.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if any of the arguments are null.</exception>
+        </member>
+        <member name="M:ParquetSharp.Column.#ctor(System.Type,System.String,ParquetSharp.LogicalType,System.Int32)">
+            <summary>
+            Create a column with the given properties.
+            </summary>
+            <param name="logicalSystemType">The <see cref="T:System.Type"/> of the column.</param>
+            <param name="name">The name of the column.</param>
+            <param name="logicalTypeOverride">Optional override for the logical type of the column.</param>
+            <param name="length">The length of the column for decimal, Guid or Half types.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if any of the required arguments are null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if the length is set with an incompatible type.</exception>
+        </member>
+        <member name="M:ParquetSharp.Column.CreateSchemaNode">
+            <summary>
+            Create a schema node representing this column with its given properties.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Column.CreateSchemaNode(ParquetSharp.LogicalTypeFactory)">
+            <summary>
+            Create a schema node representing this column with its given properties, using the given logical-type factory.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Column.CreateSchemaNode(ParquetSharp.Column[],System.String)">
+            <summary>
+            Create a schema node containing all the given columns.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Column.CreateSchemaNode(ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,System.String)">
+            <summary>
+            Create a schema node containing all the given columns, using the given logical-type factory.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ColumnChunkMetaData">
+            <summary>
+            Represents the metadata for a column chunk.
+            </summary>
+            <remarks>
+            Provides access to the metadata for a column chunk and manages the associated native resources.
+            Because this class is a wrapper around C++ objects, it implements <see cref="T:System.IDisposable"/> to release resources predictably.
+            Make sure to call <see cref="M:ParquetSharp.ColumnChunkMetaData.Dispose"/> or use a `using` statement for proper cleanup.
+            </remarks>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.Compression">
+            <summary>
+            Get the compression codec used for the column chunk.
+            </summary>
+            <value>A <see cref="T:ParquetSharp.Compression"/> value representing the compression codec used for the column chunk.</value>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.CryptoMetadata">
+            <summary>
+            Get the encryption metadata associated with the column.
+            </summary>
+            <value>A <see cref="T:ParquetSharp.ColumnCryptoMetaData"/> object representing the encryption metadata for the column, or <see langword="null"/> if no encryption metadata is available.</value>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.Encodings">
+            <summary>
+            Get the encodings used for the column chunk.
+            </summary>
+            <value>An array of <see cref="T:ParquetSharp.Encoding"/> values representing the encodings used for the column chunk.</value>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.FileOffset">
+            <summary>
+            Get the offset of the column chunk in the file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.IsStatsSet">
+            <summary>
+            Whether the column chunk statistics are present in the metadata.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.NumValues">
+            <summary>
+            Get the total number of values in the column chunk.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.TotalCompressedSize">
+            <summary>
+            Get the total compressed size of the column chunk in bytes.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.TotalUncompressedSize">
+            <summary>
+            Get the total uncompressed size of the column chunk in bytes.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.Statistics">
+            <summary>
+            Get the statistics for the column chunk.
+            </summary>
+            <value>A <see cref="T:ParquetSharp.Statistics"/> object representing the statistics for the column chunk, or <see langword="null"/> if no statistics are available.</value>
+        </member>
+        <member name="P:ParquetSharp.ColumnChunkMetaData.Type">
+            <summary>
+            Get the physical type of the column chunk.
+            </summary>
+            <value>A <see cref="T:ParquetSharp.PhysicalType"/> value representing the physical type of the column chunk.</value>
+        </member>
+        <member name="T:ParquetSharp.ColumnCryptoMetaData">
+            <summary>
+            Represents metadata related to the encryption and decryption of a Parquet column.
+            Provides access to encryption-specific properties for a column and manages the associated native resources.
+            </summary>
+            <remarks>
+            Because this class is a wrapper around C++ objects, it implements <see cref="T:System.IDisposable"/> to release resources predictably.
+            Make sure to call <see cref="M:ParquetSharp.ColumnCryptoMetaData.Dispose"/> or use a `using` statement for proper cleanup.
+            </remarks>
+        </member>
+        <member name="P:ParquetSharp.ColumnCryptoMetaData.ColumnPath">
+            <summary>
+            Get the path in the schema that specifies the column.
+            </summary>
+            <value>A <see cref="P:ParquetSharp.ColumnCryptoMetaData.ColumnPath"/> that specifies the column's path in the schema.</value>
+        </member>
+        <member name="P:ParquetSharp.ColumnCryptoMetaData.EncryptedWithFooterKey">
+            <summary>
+            Whether the column is encrypted with the footer key.
+            </summary>
+            <value>
+            <see langword="true"/> if the column is encrypted with the footer key; otherwise, <see langword="false"/>.
+            </value>
+        </member>
+        <member name="P:ParquetSharp.ColumnCryptoMetaData.KeyMetadata">
+            <summary>
+            Get the key metadata associated with the column.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ColumnDecryptionProperties">
+            <summary>
+            Properties related to decrypting one specific column.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnDecryptionProperties.ColumnPath">
+            <summary>
+            Get the path of the column to decrypt.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnDecryptionProperties.Key">
+            <summary>
+            Get the key used to decrypt the column.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ColumnDecryptionPropertiesBuilder">
+            <summary>
+            Builder pattern for creating and configuring <see cref="T:ParquetSharp.ColumnDecryptionProperties"/> objects.
+            Provides a fluent API for setting the decryption properties for a column in a Parquet file.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ColumnDecryptionPropertiesBuilder.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParquetSharp.ColumnDecryptionPropertiesBuilder"/> class for a column specified by name.
+            </summary>
+            <param name="columnName">The name of the column to decrypt.</param>
+        </member>
+        <member name="M:ParquetSharp.ColumnDecryptionPropertiesBuilder.#ctor(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParquetSharp.ColumnDecryptionPropertiesBuilder"/> class for a column specified by path.
+            </summary>
+            <param name="columnPath">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> object representing the column to decrypt.</param>
+        </member>
+        <member name="M:ParquetSharp.ColumnDecryptionPropertiesBuilder.Key(System.Byte[])">
+            <summary>
+            Set the decryption key for the column.
+            </summary>
+            <param name="key">A byte array containing the AES decryption key.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.ColumnDecryptionPropertiesBuilder.Build">
+            <summary>
+            Build the <see cref="T:ParquetSharp.ColumnDecryptionProperties"/> object.
+            </summary>
+            <returns>The configured <see cref="T:ParquetSharp.ColumnDecryptionProperties"/> object.</returns>
+        </member>
+        <member name="T:ParquetSharp.ColumnDescriptor">
+            <summary>
+            The ColumnDescriptor encapsulates information necessary to interpret primitive column data in the context of a particular schema. 
+            We have to examine the node structure of a column's path to the root in the schema tree to be able to reassemble the nested structure
+            from the repetition and definition levels.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ColumnDescriptor.GetSystemTypes(ParquetSharp.LogicalTypeFactory,System.Type,System.Boolean)">
+            <summary>
+            Get the System.Type instances that represent this column.
+            PhysicalType is the actual type on disk (e.g. ByteArray).
+            LogicalType is the most nested logical type (e.g. string).
+            ElementType is the type represented by the column (e.g. string[][][]).
+            </summary>
+            <param name="typeFactory">Type factory to get logical types</param>
+            <param name="columnLogicalTypeOverride">Overrides the default logical type to use</param>
+            <param name="useNesting">Controls whether schema nodes tested in groups should result in a corresponding Nested type</param>
+        </member>
+        <member name="T:ParquetSharp.ColumnEncryptionProperties">
+            <summary>
+            Properties related to encrypting one specific column.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ColumnEncryptionPropertiesBuilder">
+            <summary>
+            Builder pattern for creating and configuring <see cref="T:ParquetSharp.ColumnEncryptionProperties"/> objects.
+            Provides a fluent API for setting the encryption properties for a column in a Parquet file.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ColumnEncryptionPropertiesBuilder.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParquetSharp.ColumnEncryptionPropertiesBuilder"/> class for a column specified by name.
+            </summary>
+            <param name="columnName">The name of the column to encrypt.</param>
+        </member>
+        <member name="M:ParquetSharp.ColumnEncryptionPropertiesBuilder.#ctor(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParquetSharp.ColumnEncryptionPropertiesBuilder"/> class for a column specified by path.
+            </summary>
+            <param name="columnPath">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> object representing the column to encrypt.</param>
+        </member>
+        <member name="M:ParquetSharp.ColumnEncryptionPropertiesBuilder.Key(System.Byte[])">
+            <summary>
+            Set the encryption key for the column.
+            </summary>
+            <param name="key">A byte array containing the AES encryption key.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.ColumnEncryptionPropertiesBuilder.KeyMetadata(System.String)">
+            <summary>
+            Set the metadata associated with the encryption key for the column.
+            </summary>
+            <param name="keyMetadata">A string containing the metadata associated with the encryption key.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.ColumnEncryptionPropertiesBuilder.KeyId(System.String)">
+            <summary>
+            Set the key ID associated with the column's encryption key.
+            </summary>
+            <param name="keyId">An identifier for the encryption key.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.ColumnEncryptionPropertiesBuilder.Build">
+            <summary>
+            Builds the <see cref="T:ParquetSharp.ColumnEncryptionProperties"/> object.
+            </summary>
+            <returns>The configured <see cref="T:ParquetSharp.ColumnEncryptionProperties"/> object.</returns>
+        </member>
+        <member name="T:ParquetSharp.ColumnReader">
+            <summary>
+            Reader of physical Parquet values from a single column.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ColumnReader.Skip(System.Int64)">
+            <summary>
+            Skip physical row values
+            </summary>
+            <param name="numRowsToSkip">number of rows to skip</param>
+            <returns>the number of physical rows skipped</returns>
+        </member>
+        <member name="M:ParquetSharp.ColumnReader.LogicalReader(System.Boolean,System.Int32)">
+            <summary>
+            Overload for creating an untyped LogicalReader that allows specifying whether nested data should
+            be read wrapped in the Nested type.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ColumnReader`1">
+            <inheritdoc />
+        </member>
+        <member name="T:ParquetSharp.ColumnWriter">
+            <summary>
+            Writer of physical Parquet values to a single column.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnWriter.ColumnIndex">
+            <summary>
+            Get the index of the column within the row group.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnWriter.LogicalTypeFactory">
+            <summary>
+            Get the <see cref="T:ParquetSharp.LogicalTypeFactory"/> for the Parquet file writer.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnWriter.LogicalWriteConverterFactory">
+            <summary>
+            Get the <see cref="T:ParquetSharp.LogicalWriteConverterFactory"/> for the Parquet file writer.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnWriter.ColumnDescriptor">
+            <summary>
+            Get the <see cref="T:ParquetSharp.ColumnDescriptor"/> for the column.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnWriter.RowWritten">
+            <summary>
+            Get the number of rows written to the column so far.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnWriter.Type">
+            <summary>
+            Get the physical type of the column.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnWriter.WriterProperties">
+            <summary>
+            Get the <see cref="T:ParquetSharp.WriterProperties"/> for the column.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ColumnWriter.ElementType">
+            <summary>
+            Get the element <see cref="P:ParquetSharp.ColumnWriter.Type"/> of the data being written.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ColumnWriter.Apply``1(ParquetSharp.IColumnWriterVisitor{``0})">
+            <summary>
+            Apply a visitor to the column writer.
+            </summary>
+            <typeparam name="TReturn">The return type of the visitor.</typeparam>
+            <param name="visitor">The visitor instance.</param>
+            <returns>The result of the visitor operation.</returns>
+        </member>
+        <member name="M:ParquetSharp.ColumnWriter.LogicalWriter(System.Int32)">
+            <summary>
+            Create a <see cref="T:ParquetSharp.LogicalColumnWriter"/>.
+            </summary>
+            <param name="bufferLength">The buffer length in bytes. Default is 4KB.</param>
+            <returns>A <see cref="T:ParquetSharp.LogicalColumnWriter"/> instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.ColumnWriter.LogicalWriter``1(System.Int32)">
+            <summary>
+            Create a strongly-typed <see cref="T:ParquetSharp.LogicalColumnWriter"/> without an explicit element type override.
+            </summary>
+            <typeparam name="TElement">The type of the data to write.</typeparam>
+            <param name="bufferLength">The buffer length in bytes. Default is 4KB.</param>
+            <returns>A <see cref="T:ParquetSharp.LogicalColumnWriter"/> instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.ColumnWriter.LogicalWriterOverride``1(System.Int32)">
+            <summary>
+            Create a strongly-typed <see cref="T:ParquetSharp.LogicalColumnWriter"/> with an explicit element type override.
+            </summary>
+            <typeparam name="TElement">The type of the data to write.</typeparam>
+            <param name="bufferLength">The buffer length in bytes. Default is 4KB.</param>
+            <returns>A <see cref="T:ParquetSharp.LogicalColumnWriter"/> instance.</returns>
+        </member>
+        <member name="T:ParquetSharp.ColumnWriter`1">
+            <summary>
+            Strongly-typed writer of physical Parquet values to a single column.
+            </summary>
+            <typeparam name="TValue">The data type of the column.</typeparam>
+        </member>
+        <member name="P:ParquetSharp.ColumnWriter`1.ElementType">
+            <inheritdoc />
+        </member>
+        <member name="M:ParquetSharp.ColumnWriter`1.Apply``1(ParquetSharp.IColumnWriterVisitor{``0})">
+            <inheritdoc />
+        </member>
+        <member name="M:ParquetSharp.ColumnWriter`1.WriteBatch(System.ReadOnlySpan{`0})">
+            <summary>
+            Write a batch of values to the column.
+            </summary>
+            <param name="values">The values to write.</param>
+        </member>
+        <member name="M:ParquetSharp.ColumnWriter`1.WriteBatch(System.Int32,System.ReadOnlySpan{System.Int16},System.ReadOnlySpan{System.Int16},System.ReadOnlySpan{`0})">
+            <summary>
+            Write a batch of values to the column with optional definition and repetition levels.
+            </summary>
+            <param name="numValues">The number of values to write.</param>
+            <param name="defLevels">The definition levels for the values.</param>
+            <param name="repLevels">The repetition levels for the values.</param>
+            <param name="values">The values to write.</param>
+            <remarks>
+            The lengths of <paramref name="defLevels"/> and <paramref name="repLevels"/> must be at least <paramref name="numValues"/>.
+            </remarks>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="numValues"/> is larger
+            than the length of <paramref name="defLevels"/> or <paramref name="repLevels"/>.</exception>
+        </member>
+        <member name="T:ParquetSharp.Date">
+            <summary>
+            Represent a Parquet 32-bit date, based around 1970-01-01.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.DateTimeNanos">
+            <summary>
+            Represents a Parquet Timestamp with Nanoseconds time unit.
+            </summary>
+        </member>
+        <member name="F:ParquetSharp.DateTimeNanos.MinDateTimeValue">
+            <summary>
+            Minimum DateTime representable: 1677-09-21 00:12:43.
+            </summary>
+        </member>
+        <member name="F:ParquetSharp.DateTimeNanos.MaxDateTimeValue">
+            <summary>
+            Maximum DateTime representable: 2262-04-11 23:47:16.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.DateTimeNanos.FromDotnetTicks(System.Int64)">
+            <summary>
+            Make a new <see cref="T:ParquetSharp.DateTimeNanos"/> object from a specified dotnet ticks value
+            </summary>
+        </member>
+        <member name="F:ParquetSharp.DateTimeNanos.Ticks">
+            <summary>
+            Number of nanoseconds since 1970-01-01 00:00:00.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DateTimeNanos.DateTime">
+            <summary>
+            Convert to System.DateTime with reduced precision.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.DateTimeNanos.ToString">
+            <summary>
+            Converts this DateTimeNanos object to a string using a default formatting string with nanosecond precision
+            and the current culture's formatting conventions.
+            </summary>
+            <returns>String representation of this DateTimeNanos object</returns>
+        </member>
+        <member name="M:ParquetSharp.DateTimeNanos.ToString(System.String,System.IFormatProvider)">
+            <summary>
+            Converts this DateTimeNanos object to a string using the specified format and culture-specific format
+            information.
+            </summary>
+            <param name="format">A standard or custom format string. This supports dotnet DateTime format specifiers
+            with the addition of "fffffffff" for the number of nanoseconds when using a custom format. If null, a
+            default formatting string with nanosecond precision is used.</param>
+            <param name="formatProvider">An object that supplies culture-specific formatting information. If null, the
+            current culture's formatting conventions are used.</param>
+            <returns>String representation of this DateTimeNanos object</returns>
+        </member>
+        <member name="T:ParquetSharp.Decimal128">
+            <summary>
+            Internal struct for helping with C# System.Decimal.
+            
+            For C#, the scale is stored as a floating point exponent.
+            For Parquet, the scale is stored in the schema as a fixed point reference.
+            Parquet uses big-endian byte order, two's complement representation.
+            
+            13-bytes ought to be enough for C# max precision (29 digits). Round up to 16-bytes.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.DecimalConverter">
+            <summary>
+            This is a more flexible converter for decimal data stored in arbitrary length byte arrays,
+            as opposed to Decimal128 which only works with 16 byte values but is more performant.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.DecryptionKeyRetriever">
+            <summary>
+            Map a decryption key to a key-metadata.
+            Serves as a callback by FileDecryptionProperties to access decryption keys whenever they are needed.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.DecryptionKeyRetriever.CreateGcHandle">
+             <summary>
+             The native code owns a GC handle on the given instance of DecryptionKeyRetriever.
+             This is the reverse from the rest of ParquetSharp where C# owns a native handle into arrow::parquet.
+            
+             See https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.gchandle?view=netcore-3.1
+             </summary>
+        </member>
+        <member name="T:ParquetSharp.DefaultWriterProperties">
+            <summary>
+            Process-wide default writer properties to use.
+            All properties are nullable and defaults are taken from the Arrow library
+            when a default is set to null.
+            Note that these defaults are not used if creating writer properties with WriterProperties.GetDefaultWriterProperties,
+            you must use a WriterPropertiesBuilder if creating writer properties yourself,
+            or use one of the ParquetFileWriter constructors that does not take a WriterProperties
+            parameter.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.EnableDictionary">
+            <summary>
+            Whether to enable dictionary encoding by default for all columns
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.EnableStatistics">
+            <summary>
+            Whether to enable statistics by default for all columns
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.Compression">
+            <summary>
+            Default compression codec to use
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.CompressionLevel">
+            <summary>
+            Default compression level to use
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.CreatedBy">
+            <summary>
+            Default "created by" metadata value
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.DataPagesize">
+            <summary>
+            Default data page size
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.DictionaryPagesizeLimit">
+            <summary>
+            Default dictionary page size limit
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.Encoding">
+            <summary>
+            Default encoding to use for all columns
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.MaxRowGroupLength">
+            <summary>
+            Maximum row group length
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.Version">
+            <summary>
+            Default version of the Parquet format to write
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.WriteBatchSize">
+            <summary>
+            Default write batch size
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.WritePageIndex">
+            <summary>
+            Write the page index
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.DefaultWriterProperties.PageChecksumEnabled">
+            <summary>
+            Write CRC page checksums
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Encryption.CryptoFactory">
+            <summary>
+            Translates high-level encryption configuration into low-level encryption parameters
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Encryption.CryptoFactory.#ctor(ParquetSharp.Encryption.CryptoFactory.KmsClientFactory)">
+            <summary>
+            Create a new CryptoFactory
+            </summary>
+            <param name="kmsClientFactory">Creates KMS clients from a connection configuration</param>
+        </member>
+        <member name="M:ParquetSharp.Encryption.CryptoFactory.GetFileEncryptionProperties(ParquetSharp.Encryption.KmsConnectionConfig,ParquetSharp.Encryption.EncryptionConfiguration,System.String)">
+            <summary>
+            Get the encryption properties for a Parquet file.
+            If external key material is used then the path to the Parquet file must be provided.
+            </summary>
+            <param name="connectionConfig">The KMS connection configuration to use</param>
+            <param name="encryptionConfig">The encryption configuration to use</param>
+            <param name="filePath">The path to the Parquet file being written. Can be null if internal key material is used.</param>
+            <returns>Encryption properties for the file</returns>
+        </member>
+        <member name="M:ParquetSharp.Encryption.CryptoFactory.GetFileDecryptionProperties(ParquetSharp.Encryption.KmsConnectionConfig,ParquetSharp.Encryption.DecryptionConfiguration,System.String)">
+            <summary>
+            Get decryption properties for a Parquet file.
+            If external key material is used then the path to the parquet file must be provided.
+            This CryptoFactory instance must remain alive and not disposed until after any files using these
+            decryption properties have been read, as internally the FileDecryptionProperties contains references to
+            data in the CryptoFactory that cannot be managed by ParquetSharp.
+            Failure to do so may result in native memory access violations and crashes that cannot be caught as exceptions.
+            </summary>
+            <param name="connectionConfig">The KMS connection configuration to use</param>
+            <param name="decryptionConfig">The decryption configuration to use</param>
+            <param name="filePath">The path to the Parquet file being read. Can be null if internal key material is used.</param>
+            <returns>Decryption properties for the file</returns>
+        </member>
+        <member name="M:ParquetSharp.Encryption.CryptoFactory.RotateMasterKeys(ParquetSharp.Encryption.KmsConnectionConfig,System.String,System.Boolean,System.Double)">
+            <summary>
+            Rotates master encryption keys for a Parquet file that uses external key material.
+            In single wrapping mode, data encryption keys are decrypted with the old master keys
+            and then re-encrypted with new master keys.
+            In double wrapping mode, key encryption keys are decrypted with the old master keys
+            and then re-encrypted with new master keys.
+            This relies on the KMS supporting versioning, such that the old master key is
+            used when unwrapping a key, and the latest version is used when wrapping a key.
+            </summary>
+            <param name="connectionConfig">The KMS connection configuration to use</param>
+            <param name="parquetFilePath">Path to the encrypted Parquet file</param>
+            <param name="doubleWrapping">Whether to use double wrapping when rotating</param>
+            <param name="cacheLifetimeSeconds">Lifetime of cached objects in seconds</param>
+        </member>
+        <member name="T:ParquetSharp.Encryption.DecryptionConfiguration">
+            <summary>
+            Configures how data should be decrypted when reading a ParquetFile with a KMS
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Encryption.DecryptionConfiguration.#ctor">
+            <summary>
+            Create a new DecryptionConfiguration
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.DecryptionConfiguration.CacheLifetimeSeconds">
+            <summary>
+            Lifetime of cached entities (key encryption keys, local wrapping keys, KMS client objects) in seconds.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Encryption.EncryptionConfiguration">
+            <summary>
+            Configures how data should be encrypted when writing a ParquetFile with a KMS
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Encryption.EncryptionConfiguration.#ctor(System.String)">
+            <summary>
+            Create a new EncryptionConfiguration
+            </summary>
+            <param name="footerKey">ID of the master key for footer encryption and signing</param>
+        </member>
+        <member name="P:ParquetSharp.Encryption.EncryptionConfiguration.FooterKey">
+            <summary>
+            ID of the master key for footer encryption and signing
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.EncryptionConfiguration.ColumnKeys">
+            <summary>
+            Map from master key IDs to the names of columns encrypted with this key
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.EncryptionConfiguration.UniformEncryption">
+            <summary>
+            Whether the footer and columns are all encrypted with the same key
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.EncryptionConfiguration.EncryptionAlgorithm">
+            <summary>
+            The encryption algorithm to use
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.EncryptionConfiguration.PlaintextFooter">
+            <summary>
+            Whether the footer should be stored unencrypted
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.EncryptionConfiguration.DoubleWrapping">
+            <summary>
+            Whether double wrapping should be used, where data encryption keys (DEKs) are encrypted
+            with key encryption keys (KEKs), which in turn are encrypted with master keys.
+            If false, single wrapping is used, where data encryption keys are encrypted directly
+            with master keys.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.EncryptionConfiguration.CacheLifetimeSeconds">
+            <summary>
+            Lifetime of cached entities (key encryption keys, local wrapping keys, KMS client objects) in seconds.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.EncryptionConfiguration.InternalKeyMaterial">
+            <summary>
+            Store key material inside Parquet file footers; this mode doesn’t produce
+            additional files. By default, true. If set to false, key material is stored in
+            separate files in the same folder, which enables key rotation for immutable
+            Parquet files.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.EncryptionConfiguration.DataKeyLengthBits">
+            <summary>
+            Length of data encryption keys (DEKs), randomly generated by parquet key
+            management tools. Can be 128, 192 or 256 bits.
+            The default is 128 bits.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Encryption.IKmsClient">
+            <summary>
+            Interface for Key Management System (KMS) client implementations
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Encryption.IKmsClient.WrapKey(System.Byte[],System.String)">
+            <summary>
+            Wrap a key - encrypt it with the master key
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Encryption.IKmsClient.UnwrapKey(System.String,System.String)">
+            <summary>
+            Unwrap a key - decrypt it with the master key
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Encryption.KmsConnectionConfig">
+            <summary>
+            Configures how to connect to a Key Management System (KMS)
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Encryption.KmsConnectionConfig.RefreshKeyAccessToken(System.String)">
+            <summary>
+            Update the access token
+            </summary>
+            <param name="newToken">The new token to use</param>
+        </member>
+        <member name="P:ParquetSharp.Encryption.KmsConnectionConfig.KmsInstanceId">
+            <summary>
+            ID of the KMS instance that will be used for encryption
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.KmsConnectionConfig.KmsInstanceUrl">
+            <summary>
+            URL of the KMS instance
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.KmsConnectionConfig.KeyAccessToken">
+            <summary>
+            Authorization token that will be passed to the KMS
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.KmsConnectionConfig.CustomKmsConf">
+            <summary>
+            KMS-type-specific configuration
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Encryption.ReadonlyKmsConnectionConfig">
+            <summary>
+            Readonly version of KmsConnectionConfig. This is passed to KmsClient factories
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.ReadonlyKmsConnectionConfig.KmsInstanceId">
+            <summary>
+            ID of the KMS instance that will be used for encryption
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.ReadonlyKmsConnectionConfig.KmsInstanceUrl">
+            <summary>
+            URL of the KMS instance
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.ReadonlyKmsConnectionConfig.KeyAccessToken">
+            <summary>
+            Authorization token that will be passed to the KMS
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.Encryption.ReadonlyKmsConnectionConfig.CustomKmsConf">
+            <summary>
+            KMS-type-specific configuration
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ExceptionInfo">
+            <summary>
+            Marshaling logic for exceptions from the native C/C++ code to the managed layer.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.FileDecryptionProperties">
+            <summary>
+            Properties related to decrypting a parquet file.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.FileDecryptionPropertiesBuilder">
+            <summary>
+            Builder pattern for creating and configuring a <see cref="T:ParquetSharp.FileDecryptionProperties"/> object.
+            Provides a fluent API for setting the decryption properties (footer key, encryption algorithm, etc.) for a Parquet file.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.FileDecryptionPropertiesBuilder.#ctor">
+            <summary>
+            Create a new <see cref="T:ParquetSharp.FileDecryptionPropertiesBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.FileDecryptionPropertiesBuilder.FooterKey(System.Byte[])">
+            <summary>
+            Set the footer key used to decrypt the file.
+            </summary>
+            <param name="footerKey">An array of bytes used to decrypt the footer.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileDecryptionPropertiesBuilder.ColumnKeys(ParquetSharp.ColumnDecryptionProperties[])">
+            <summary>
+            Set the keys used to decrypt the columns.
+            </summary>
+            <param name="columnDecryptionProperties">An array of <see cref="T:ParquetSharp.ColumnDecryptionProperties"/> objects.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileDecryptionPropertiesBuilder.AadPrefixVerifier(ParquetSharp.AadPrefixVerifier)">
+            <summary>
+            Set the prefix verifier used to verify the additional authenticated data (AAD) prefix.
+            </summary>
+            <param name="aadPrefixVerifier">An <see cref="T:ParquetSharp.AadPrefixVerifier"/> object that provides a callback to verify the AAD prefix.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileDecryptionPropertiesBuilder.KeyRetriever(ParquetSharp.DecryptionKeyRetriever)">
+            <summary>
+            Set the key retriever used to retrieve the decryption keys.
+            </summary>
+            <param name="keyRetriever">A <see cref="T:ParquetSharp.DecryptionKeyRetriever"/> object that provides a callback to retrieve the decryption keys.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileDecryptionPropertiesBuilder.DisableFooterSignatureVerification">
+            <summary>
+            Disable footer signature verification.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileDecryptionPropertiesBuilder.AadPrefix(System.String)">
+            <summary>
+            Set the additional authenticated data (AAD) prefix.
+            </summary>
+            <param name="aadPrefix">A string representing the AAD prefix.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileDecryptionPropertiesBuilder.PlaintextFilesAllowed">
+            <summary>
+            Allow plaintext (unencrypted) files.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileDecryptionPropertiesBuilder.Build">
+            <summary>
+            Build the <see cref="T:ParquetSharp.FileDecryptionProperties"/> object.
+            </summary>
+            <returns>The configured <see cref="T:ParquetSharp.FileDecryptionProperties"/> object.</returns>
+        </member>
+        <member name="T:ParquetSharp.FileEncryptionProperties">
+            <summary>
+            Properties related to encrypting a parquet file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileEncryptionProperties.EncryptedFooter">
+            <summary>
+            Get a boolean indicating whether the footer is encrypted.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileEncryptionProperties.FooterKey">
+            <summary>
+            Get the footer key used to encrypt the footer.
+            </summary>
+            <value>A byte array representing the footer key.</value>
+        </member>
+        <member name="P:ParquetSharp.FileEncryptionProperties.FooterKeyMetadata">
+            <summary>
+            Get the metadata associated with the footer key.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileEncryptionProperties.FileAad">
+            <summary>
+            Get the additional authenticated data (AAD) used to encrypt the file.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionProperties.ColumnEncryptionProperties(System.String)">
+            <summary>
+            Get the column encryption properties for a specific column.
+            </summary>
+            <param name="columnPath">The path that specifies the column.</param>
+            <returns>The column encryption properties for the specified column, or <see langword="null"/> if the column is not encrypted.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionProperties.DeepClone">
+            <summary>
+            Create a deep clone of the file encryption properties object.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.FileEncryptionPropertiesBuilder">
+            <summary>
+            Builder pattern for creating and configuring a <see cref="T:ParquetSharp.FileEncryptionProperties"/> object.
+            Provides a fluent API for setting the encryption properties (footer key, encryption algorithm, etc.) for a Parquet file.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionPropertiesBuilder.#ctor(System.Byte[])">
+            <summary>
+            Create a new <see cref="T:ParquetSharp.FileEncryptionPropertiesBuilder"/> with a footer key.
+            </summary>
+            <param name="footerKey">An array of bytes used to encrypt the footer.</param>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionPropertiesBuilder.SetPlaintextFooter">
+            <summary>
+            Set the footer to be in plaintext, i.e., not encrypted.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionPropertiesBuilder.Algorithm(ParquetSharp.ParquetCipher)">
+            <summary>
+            Set the encryption algorithm.
+            </summary>
+            <param name="parquetCipher">A <see cref="T:ParquetSharp.ParquetCipher"/> value representing the encryption algorithm.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionPropertiesBuilder.FooterKeyId(System.String)">
+            <summary>
+            Set the key ID associated to the footer key.
+            </summary>
+            <param name="footerKeyId">A unique identifier for the footer key.</param>
+            <returns>This builder instance.</returns>
+            <remarks>
+            Key IDs help identify and manage encryption keys, helpful when multiple keys are in use.
+            This value is typically stored in key management systems.
+            </remarks>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionPropertiesBuilder.FooterKeyMetadata(System.String)">
+            <summary>
+            Set the metadata for the footer key.
+            </summary>
+            <param name="footerKeyMetadata">A string containing metadata for the footer key.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionPropertiesBuilder.AadPrefix(System.String)">
+            <summary>
+            Set the additional authenticated data (AAD) prefix.
+            </summary>
+            <param name="aadPrefix">A string representing the AAD prefix.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionPropertiesBuilder.DisableAadPrefixStorage">
+            <summary>
+            Disable AAD prefix storage in the file.
+            </summary>
+            <returns>This builder instance.</returns>
+            <remarks>
+            Disabling AAD prefix storage will prevent the AAD prefix from being stored in the file.
+            </remarks>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionPropertiesBuilder.EncryptedColumns(ParquetSharp.ColumnEncryptionProperties[])">
+            <summary>
+            Set which columns in the Parquet file to encrypt.
+            </summary>
+            <param name="columnEncryptionProperties">An array of <see cref="T:ParquetSharp.ColumnEncryptionProperties"/> objects representing the columns to be encrypted.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.FileEncryptionPropertiesBuilder.Build">
+            <summary>
+            Build the <see cref="T:ParquetSharp.FileEncryptionProperties"/> object.
+            </summary>
+            <returns>The configured <see cref="T:ParquetSharp.FileEncryptionProperties"/> object.</returns>
+        </member>
+        <member name="T:ParquetSharp.FileMetaData">
+            <summary>
+            Metadata for a Parquet file. Includes information about the schema, row groups, versions, etc.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.CreatedBy">
+            <summary>
+            Get the name of the entity that created the file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.KeyValueMetadata">
+            <summary>
+            Get the key-value metadata.
+            </summary>
+            <returns>An <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/> containing the key-value metadata.</returns>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.NumColumns">
+            <summary>
+            Get the number of columns in the file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.NumRows">
+            <summary>
+            Get the number of rows in the file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.NumRowGroups">
+            <summary>
+            Get the number of row groups in the file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.NumSchemaElements">
+            <summary>
+            Get the number of schema elements in the file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.Schema">
+            <summary>
+            Get the schema descriptor for the file.
+            </summary>
+            <returns>A <see cref="T:ParquetSharp.SchemaDescriptor"/> object that describes the schema of the file.</returns>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.Size">
+            <summary>
+            Get the total size of the file in bytes.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.Version">
+            <summary>
+            Get the Parquet format version of the file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.FileMetaData.WriterVersion">
+            <summary>
+            Get the version of the writer that created the file.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.FixedLenByteArray">
+            <summary>
+            Represents a Parquet fixed-length array of contiguous bytes.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.IColumnDescriptorVisitor`1">
+            <summary>
+            Visitor on ColumnDescriptor to discover the system types in a type safe manner.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.IColumnReaderVisitor`1">
+            <summary>
+            Visitor on ColumnReader to discover the derived reader type in a type safe manner.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.IColumnWriterVisitor`1">
+            <summary>
+            Visitor on ColumnWriter to discover the derived writer type in a type safe manner.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ILogicalColumnReaderVisitor`1">
+            <summary>
+            Visitor on LogicalColumnReader to discover the derived reader type in a type safe manner.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ILogicalColumnWriterVisitor`1">
+            <summary>
+            Visitor on LogicalColumnWriter to discover the derived writer type in a type safe manner.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Int96">
+            <summary>
+            Represents a Parquet 96-bit signed integer.
+            This is obsolete (see https://issues.apache.org/jira/browse/PARQUET-323).
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.IO.Buffer">
+            <summary>
+            Points to a piece of contiguous memory.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.IO.BufferOutputStream">
+            <summary>
+            An output stream that writes to a resizable buffer.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.IO.BufferOutputStream.#ctor">
+            <summary>
+            Create a new buffer output stream.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.IO.BufferOutputStream.#ctor(ParquetSharp.IO.ResizableBuffer)">
+            <summary>
+            Create a new buffer output stream from a resizable buffer.
+            </summary>
+            <param name="resizableBuffer">The resizable buffer to write to.</param>
+        </member>
+        <member name="M:ParquetSharp.IO.BufferOutputStream.Finish">
+            <summary>
+            Finish writing to the buffer and return the buffer.
+            </summary>
+            <returns>The buffer containing the written data.</returns>
+        </member>
+        <member name="T:ParquetSharp.IO.BufferReader">
+            <summary>
+            Random access zero-copy reads on a Buffer.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.IO.BufferReader.#ctor(ParquetSharp.IO.Buffer)">
+            <summary>
+            Create a new buffer reader from a buffer.
+            </summary>
+            <param name="buffer">A <see cref="T:ParquetSharp.IO.Buffer"/> to read from.</param> 
+        </member>
+        <member name="T:ParquetSharp.IO.ManagedOutputStream">
+            <summary>
+            Managed wrapper around arrow::io::OutputStream that takes in a .NET Stream instance.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.IO.ManagedRandomAccessFile">
+            <summary>
+            Managed wrapper around arrow::io::RandomAccessFile that takes in a .NET Stream instance.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.IO.OutputStream">
+            <summary>
+            Wrapper around arrow::io::OutputStream.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.IO.RandomAccessFile">
+            <summary>
+            Wrapper around arrow::io::RandomAccessFile.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.IO.ResizableBuffer">
+            <summary>
+            A mutable buffer that can be resized.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.IO.ResizableBuffer.#ctor(System.Int64)">
+            <summary>
+            Create a new resizable buffer with the given initial size.
+            </summary>
+            <param name="initialSize">The initial size of the buffer in bytes.</param>
+        </member>
+        <member name="M:ParquetSharp.IO.ResizableBuffer.FromNonOwnedPtr(System.IntPtr)">
+            <summary>
+            Create a new resizable buffer from a non-owned pointer.
+            </summary>
+            <param name="handle">The pointer to the buffer.</param>
+        </member>
+        <member name="M:ParquetSharp.IO.ResizableBuffer.Resize(System.Int64)">
+            <summary>
+            Resize the buffer to the given size.
+            </summary>
+            <param name="newSize">The new size of the buffer in bytes.</param>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchReader.ArrayReader`3">
+            <summary>
+            Reads array values
+            </summary>
+            <typeparam name="TPhysical">The underlying physical type of leaf values in the column</typeparam>
+            <typeparam name="TLogical">The .NET logical type for the column leaf values</typeparam>
+            <typeparam name="TItem">The type of items contained in the array</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchReader.ArrayReader`3.ReadInnerTypeArray">
+            <summary>
+            Read an array of values using the inner logical batch reader
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchReader.ArrayReader`3.ReadLogicalTypeArray">
+            <summary>
+            Read an array of values directly from the buffered reader, for when the items in arrays
+            are the leaf level logical values.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchReader.DirectReader`2">
+            <summary>
+            Uses a direct reader to read physical values as the logical value type.
+            This doesn't use a buffered reader so is only compatible with plain scalar columns.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchReader.ILogicalBatchReader`1">
+            <summary>
+            Reads batches of data of an element type corresponding to a level within the type hierarchy of a column
+            </summary>
+            <typeparam name="TElement">The type of values that are read</typeparam>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchReader.LeafReader`2">
+            <summary>
+            Reads leaf level values within a compound structure.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchReader.LogicalBatchReaderFactory`2">
+            <summary>
+            Creates batch readers for a column at different levels of the column schema hierarchy
+            </summary>
+            <typeparam name="TPhysical">The underlying physical type of leaf values in the column</typeparam>
+            <typeparam name="TLogical">The .NET logical type for the column leaf values</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchReader.LogicalBatchReaderFactory`2.GetReader``1(ParquetSharp.Schema.Node[])">
+            <summary>
+            Get a reader for the top-level element type of the column
+            </summary>
+            <param name="schemaNodes">The full array of nodes making up the column schema</param>
+            <typeparam name="TElement">The top-level column element type</typeparam>
+            <returns>A batch reader for the top level element type</returns>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchReader.LogicalBatchReaderFactory`2.GetCompoundReader``1(ParquetSharp.Schema.Node[],System.Int16,System.Int16)">
+            <summary>
+            Get an internal element reader
+            </summary>
+            <param name="schemaNodes">A subset of the column schema nodes, with outer schema nodes skipped over</param>
+            <param name="definitionLevel">The current base definition level</param>
+            <param name="repetitionLevel">The current base repetition level</param>
+            <typeparam name="TElement">The type of element to get a reader for</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchReader.LogicalBatchReaderFactory`2.MakeArrayReader``1(ParquetSharp.Schema.Node[],System.Int16,System.Int16)">
+            <summary>
+            Create a new reader for array values
+            </summary>
+            <typeparam name="TElement">The type of array to read</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchReader.LogicalBatchReaderFactory`2.MakeNestedReader``1(System.Type,ParquetSharp.Schema.Node[],System.Int16,System.Int16)">
+            <summary>
+            Create a new reader for Nested values
+            </summary>
+            <typeparam name="TElement">The type of nested value to read</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchReader.LogicalBatchReaderFactory`2.MakeNestedOptionalReader``1(System.Type,ParquetSharp.Schema.Node[],System.Int16,System.Int16)">
+            <summary>
+            Create a new reader for optional (nullable) Nested values
+            </summary>
+            <typeparam name="TElement">The type of nullable nested value to read</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchReader.LogicalBatchReaderFactory`2.MakeOptionalReader``1(System.Type,ParquetSharp.Schema.Node[],System.Int16,System.Int16)">
+            <summary>
+            Create a new reader for required leaf level values that are nullable due to nesting,
+            but don't use the Nested wrapper type.
+            </summary>
+            <typeparam name="TElement">The type of nullable value to read</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchReader.LogicalBatchReaderFactory`2.MakeGenericReader(System.Type,ParquetSharp.Schema.Node[],System.Int16,System.Int16)">
+            <summary>
+            Utility method to create an ILogicalBatchReader given the element type as a variable
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchReader.NestedReader`1">
+            <summary>
+            Reads values that are nested within an outer group struct
+            </summary>
+            <typeparam name="TItem">The type of values that are nested</typeparam>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchReader.OptionalNestedReader`3">
+            <summary>
+            Reads values that are nested within an outer group struct that is optional
+            </summary>
+            <typeparam name="TPhysical">The underlying physical type of leaf values in the column</typeparam>
+            <typeparam name="TLogical">The .NET logical type for the column leaf values</typeparam>
+            <typeparam name="TItem">The type of values that are nested</typeparam>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchReader.OptionalReader`3">
+            <summary>
+            Reads values that are nested within an outer group struct that is optional, without using the Nested wrapper type
+            </summary>
+            <typeparam name="TPhysical">The underlying physical type of leaf values in the column</typeparam>
+            <typeparam name="TLogical">The .NET logical type for the column leaf values</typeparam>
+            <typeparam name="TItem">The type of values that are nullable</typeparam>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchReader.ScalarReader`2">
+            <summary>
+            Reads scalar column values that require a converter.
+            This doesn't use a buffered reader so is only compatible with plain scalar columns.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchWriter.ArrayWriter`2">
+            <summary>
+            Writes array values
+            </summary>
+            <typeparam name="TItem">The type of the item in the arrays</typeparam>
+            <typeparam name="TPhysical">The underlying physical type of the column</typeparam>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchWriter.ILogicalBatchWriter`1">
+            <summary>
+            Writes batches of data of an element type corresponding to a level within the type hierarchy of a column
+            </summary>
+            <typeparam name="TElement">The type of values that are written</typeparam>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchWriter.LogicalBatchWriterFactory`2">
+            <summary>
+            Creates batch writers for a column at different levels of the column schema hierarchy
+            </summary>
+            <typeparam name="TPhysical">The underlying physical type of leaf values in the column</typeparam>
+            <typeparam name="TLogical">The .NET logical type for the column leaf values</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchWriter.LogicalBatchWriterFactory`2.GetWriter``1(ParquetSharp.Schema.Node[])">
+            <summary>
+            Get a writer for the top-level element type of the column
+            </summary>
+            <param name="schemaNodes">The full array of nodes making up the column schema</param>
+            <typeparam name="TElement">The top-level column element type</typeparam>
+            <returns>A batch writer for the top level element type</returns>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchWriter.LogicalBatchWriterFactory`2.GetWriter``1(ParquetSharp.Schema.Node[],System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Get an internal element writer
+            </summary>
+            <param name="schemaNodes">A subset of the column schema nodes, with outer schema nodes skipped over</param>
+            <param name="definitionLevel">The current base definition level</param>
+            <param name="repetitionLevel">The current base repetition level</param>
+            <param name="firstRepetitionLevel">The current repetition level for the first leaf value.
+            This can't be inferred from the repetition level as inner level writers don't know whether they are writing values within an array</param>
+            <typeparam name="TElement">The type of element to get a writer for</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchWriter.LogicalBatchWriterFactory`2.MakeArrayWriter``1(ParquetSharp.Schema.Node[],System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Create a new writer for array values
+            </summary>
+            <typeparam name="TElement">The type of array to write</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchWriter.LogicalBatchWriterFactory`2.MakeNestedWriter``1(System.Type,ParquetSharp.Schema.Node[],System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Create a new writer for Nested values
+            </summary>
+            <typeparam name="TElement">The type of nested value to write</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchWriter.LogicalBatchWriterFactory`2.MakeNestedOptionalWriter``1(System.Type,ParquetSharp.Schema.Node[],System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Create a new writer for optional (nullable) Nested values
+            </summary>
+            <typeparam name="TElement">The type of nullable nested value to write</typeparam>
+        </member>
+        <member name="M:ParquetSharp.LogicalBatchWriter.LogicalBatchWriterFactory`2.MakeGenericWriter(System.Type,ParquetSharp.Schema.Node[],System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Utility method to create an ILogicalBatchWriter given the element type as a variable
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchWriter.NestedWriter`1">
+            <summary>
+            Writes required nested values by unwrapping the nesting
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchWriter.OptionalNestedWriter`2">
+            <summary>
+            Writes optional nested values by unwrapping the nesting
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalBatchWriter.ScalarWriter`2">
+            <summary>
+            Writes the lowest level leaf values for a column.
+            For non-nested data this will be the only writer needed.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalColumnReader">
+            <summary>
+            Column reader transparently converting Parquet physical types to C# types.
+            This is a higher-level API not part of apache-parquet-cpp.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalColumnReader.Skip(System.Int64)">
+            <summary>
+            Skips logical rows for all reader types, including <see cref="T:ParquetSharp.LogicalBatchReader.ArrayReader`3"/>
+            </summary>
+            <param name="numRowsToSkip">number of rows to skip</param>
+            <returns>the number of logical rows skipped</returns>
+        </member>
+        <member name="M:ParquetSharp.LogicalColumnStream`1.GetSchemaNodesPath(ParquetSharp.Schema.Node)">
+            <summary>
+            Get the path from the top-level schema column node to the leaf node for this column,
+            excluding the schema root.
+            The returned nodes should be disposed of when finished with.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalColumnWriter">
+            <summary>
+            Column writer transparently converting C# types to Parquet physical types.
+            This is a higher-level API not part of apache-parquet-cpp.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalColumnWriter.Apply``1(ParquetSharp.ILogicalColumnWriterVisitor{``0})">
+            <summary>
+            Apply a visitor to this logical column writer.
+            </summary>
+            <typeparam name="TReturn">The return type of the visitor.</typeparam>
+            <param name="visitor">The visitor instance.</param>
+            <returns>The result of the visitor.</returns>
+        </member>
+        <member name="T:ParquetSharp.LogicalColumnWriter`1">
+            <inheritdoc />
+        </member>
+        <member name="M:ParquetSharp.LogicalColumnWriter`1.Apply``1(ParquetSharp.ILogicalColumnWriterVisitor{``0})">
+            <inheritdoc />
+        </member>
+        <member name="M:ParquetSharp.LogicalColumnWriter`1.WriteBatch(`0[])">
+            <summary>
+            Write an array of values to the column.
+            </summary>
+            <param name="values">An array of values to write.</param>
+        </member>
+        <member name="M:ParquetSharp.LogicalColumnWriter`1.WriteBatch(`0[],System.Int32,System.Int32)">
+            <summary>
+            Write a range of values to the column.
+            </summary>
+            <param name="values">An array of values to write.</param>
+            <param name="start">The index of the first value to write.</param>
+            <param name="length">The number of values to write.</param>
+        </member>
+        <member name="M:ParquetSharp.LogicalColumnWriter`1.WriteBatch(System.ReadOnlySpan{`0})">
+            <summary>
+            Write a span of values to the column.
+            </summary>
+            <param name="values">A <see cref="T:System.ReadOnlySpan`1"/> of values to write.</param>
+        </member>
+        <member name="T:ParquetSharp.LogicalRead`2">
+            <summary>
+            Parquet physical types to C# types read conversion logic.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalRead">
+            <summary>
+            Parquet physical types to C# types read conversion logic.
+            Separate class for per-element conversion logic.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalReadConverterFactory">
+            <summary>
+            Extendable class that handles the mapping between a Parquet physical type and the C# logical type when reading values.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalReadConverterFactory.GetDirectReader``2">
+            <summary>
+            Return a reader delegate if a TPhysical column reader can directly write into a TLogical span (e.g. float to float, int to uint, etc).
+            Otherwise return null. This is an optimisation to avoid needless memory copies between buffers (i.e. otherwise we have to use the
+            identity converter).
+            </summary>
+            <returns>
+            A delegate of type LogicalRead&lt;TLogical, TPhysical&gt;.DirectReader
+            </returns>
+        </member>
+        <member name="M:ParquetSharp.LogicalReadConverterFactory.GetConverter``2(ParquetSharp.ColumnDescriptor,ParquetSharp.ColumnChunkMetaData)">
+            <summary>
+            Return a converter delegate that converts a TPhysical readonly-span to a TLogical span.
+            </summary>
+            <returns>
+            A delegate of type LogicalRead&lt;TLogical, TPhysical&gt;.Converter
+            </returns>
+            <param name="columnDescriptor">The descriptor of the column to be converted.</param>
+            <param name="columnChunkMetaData">The metadata of the column-chunk to be converted.</param>
+        </member>
+        <member name="T:ParquetSharp.LogicalStreamBuffers`1">
+            <summary>
+            Wrapper around the buffers of the logical column stream
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.CppLogicalTypeEnum">
+            <summary>
+            Type enum with values that match the C++ Parquet library.
+            These are not guaranteed to be stable between releases, but we need to keep
+            the LogicalTypeEnum values above stable to ensure ABI compatibility.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalType.Float16">
+             <summary>
+             Create a Float16 LogicalType
+            
+             This can be used to annotate a 2-byte fixed-length byte array
+             </summary>
+             <returns>New Float16 LogicalType</returns>
+        </member>
+        <member name="T:ParquetSharp.LogicalTypeFactory">
+            <summary>
+            Defines the mapping between .NET types and Parquet logical types, allowing for custom type handling.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalTypeFactory.#ctor">
+            <summary>
+            Create a new LogicalTypeFactory with the default primitive mapping.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalTypeFactory.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.Type,System.ValueTuple{ParquetSharp.LogicalType,ParquetSharp.Repetition,ParquetSharp.PhysicalType}})">
+            <summary>
+            Create a new LogicalTypeFactory with a custom primitive mapping.
+            </summary>
+            <param name="primitiveMapping">The mapping from .NET types to Parquet logical and physical types</param>
+        </member>
+        <member name="M:ParquetSharp.LogicalTypeFactory.TryGetParquetTypes(System.Type,System.ValueTuple{ParquetSharp.LogicalType,ParquetSharp.Repetition,ParquetSharp.PhysicalType}@)">
+            <summary>
+            Get the mapping from the C# types to the Parquet logical and physical types.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalTypeFactory.GetSystemTypes(ParquetSharp.ColumnDescriptor,System.Type)">
+            <summary>
+            Get the mapping from a column descriptor to the actual C# physical and logical element types.
+            If we know the exact column logical type, use that instead (i.e. user custom types).
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalTypeFactory.IsSupported(System.Type)">
+            <summary>
+            Query whether the given C# type is supported and a schema node can potentially be created.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalTypeFactory.GetSystemTypes(ParquetSharp.ColumnDescriptor)">
+            <summary>
+            Get the mapping from a column descriptor to the actual C# physical and logical element types.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalTypeFactory.GetTypesOverride(ParquetSharp.LogicalType,ParquetSharp.LogicalType,ParquetSharp.PhysicalType)">
+            <summary>
+            Get a new pair of (LogicalType, PhysicalType) taking into account an optional logical type override.
+            </summary>
+        </member>
+        <member name="F:ParquetSharp.LogicalTypeFactory.DefaultPrimitiveMapping">
+            <summary>
+            List of default mapping for each supported C# type.
+            </summary>
+        </member>
+        <member name="F:ParquetSharp.LogicalTypeFactory.Default">
+            <summary>
+            The default LogicalTypeFactory instance.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalWrite`2">
+            <summary>
+            C# types to Parquet physical types write conversion logic.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalWrite">
+            <summary>
+            C# types to Parquet physical types write conversion logic.
+            Separate class for per-element conversion logic.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.LogicalWriteConverterFactory">
+            <summary>
+            Extendable class that handles the mapping between a C# logical type and the Parquet physical type when writing values.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.LogicalWriteConverterFactory.GetConverter``2(ParquetSharp.ColumnDescriptor,ParquetSharp.ByteBuffer)">
+            <summary>
+            Return a converter delegate that converts a TLogical readonly-span to a TPhysical span.
+            </summary>
+            <returns>
+            A delegate of type LogicalWrite&lt;TLogical, TPhysical&gt;.Converter
+            </returns>
+            <param name="columnDescriptor">The descriptor of the column to be converted.</param>
+            <param name="byteBuffer">The ByteBuffer allocation pool for efficiently handling byte arrays.</param>
+        </member>
+        <member name="M:ParquetSharp.LongPath.EnsureLongPathSafe(System.String)">
+            <summary>
+            Perform OS-dependent pre-processing of the specified path so that the win32 apis used by Arrow to open
+            files will handle long paths. Note that this only handles absolute paths.
+            The host must also be configured to enable long paths, and the application manifest must specify that
+            the application is long path aware.
+            See https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation for more details.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.MemoryPool">
+            <summary>
+            Base class for memory allocation on the CPU. Tracks the number of allocated bytes.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Nested`1">
+            <summary>
+            Wraps values that are nested inside group nodes in the Parquet schema,
+            so that complex nested structures can be interpreted from columnar arrays.
+            </summary>
+            <typeparam name="T">The type of the inner nested value</typeparam>
+        </member>
+        <member name="T:ParquetSharp.ParquetException">
+            <summary>
+            Exception thrown by apache-parquet-cpp or the ParquetSharp wrapping logic.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ParquetFileReader">
+            <summary>
+            Opens and reads Parquet files.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileReader.#ctor(System.String)">
+            <summary>
+            Create a new ParquetFileReader for reading from a file at the specified path
+            </summary>
+            <param name="path">Path to the Parquet file</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileReader.#ctor(ParquetSharp.IO.RandomAccessFile)">
+            <summary>
+            Create a new ParquetFileReader for reading from a specified <see cref="T:ParquetSharp.IO.RandomAccessFile"/>
+            </summary>
+            <param name="randomAccessFile">The file to read</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileReader.#ctor(System.IO.Stream,System.Boolean)">
+            <summary>
+            Create a new ParquetFileReader for reading from a .NET stream
+            </summary>
+            <param name="stream">The stream to read</param>
+            <param name="leaveOpen">Whether to keep the stream open after the reader is closed</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileReader.#ctor(System.String,ParquetSharp.ReaderProperties)">
+            <summary>
+            Create a new ParquetFileReader for reading from a file at the specified path
+            </summary>
+            <param name="path">Path to the Parquet file</param>
+            <param name="readerProperties">A <see cref="T:ParquetSharp.ReaderProperties"/> object that configures the reader</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if the path is null</exception>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileReader.#ctor(ParquetSharp.IO.RandomAccessFile,ParquetSharp.ReaderProperties)">
+            <summary>
+            Create a new ParquetFileReader for reading from a specified <see cref="T:ParquetSharp.IO.RandomAccessFile"/>
+            </summary>
+            <param name="randomAccessFile">The file to read</param>
+            <param name="readerProperties">The <see cref="T:ParquetSharp.ReaderProperties"/> to use</param>  
+            <exception cref="T:System.ArgumentNullException">Thrown if the file or its handle are null</exception>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileReader.#ctor(System.IO.Stream,ParquetSharp.ReaderProperties,System.Boolean)">
+            <summary>
+            Create a new ParquetFileReader for reading from a .NET stream
+            </summary>
+            <param name="stream">The stream to read</param>
+            <param name="readerProperties">Configures the reader properties</param>
+            <param name="leaveOpen">Whether to keep the stream open after the reader is closed</param>
+        </member>
+        <member name="P:ParquetSharp.ParquetFileReader.LogicalTypeFactory">
+            <summary>
+            The <see cref="T:ParquetSharp.LogicalTypeFactory"/> for handling custom types.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ParquetFileReader.LogicalReadConverterFactory">
+            <summary>
+            The <see cref="T:ParquetSharp.LogicalReadConverterFactory"/> for reading custom types.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ParquetFileReader.FileMetaData">
+            <summary>
+            Metadata associated with the Parquet file.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileReader.RowGroup(System.Int32)">
+            <summary>
+            Get a <see cref="T:ParquetSharp.RowGroupReader"/> for the specified row group index.
+            </summary>
+            <param name="i">The row group index</param>
+            <returns>A <see cref="T:ParquetSharp.RowGroupReader"/> for the specified row group index</returns>
+        </member>
+        <member name="T:ParquetSharp.ParquetFileWriter">
+            <summary>
+            Opens and writes Parquet files.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(System.String,ParquetSharp.Column[],ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="path">Location to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="compression">Compression to use for all columns</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(ParquetSharp.IO.OutputStream,ParquetSharp.Column[],ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="outputStream">Stream to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="compression">Compression to use for all columns</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(System.String,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="path">Location to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="logicalTypeFactory">Custom type factory used to map from dotnet types to Parquet types</param>
+            <param name="compression">Compression to use for all columns</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(ParquetSharp.IO.OutputStream,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="outputStream">Stream to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="logicalTypeFactory">Custom type factory used to map from dotnet types to Parquet types</param>
+            <param name="compression">Compression to use for all columns</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(System.IO.Stream,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            Open a new ParquetFileWriter for writing to a .NET stream
+            </summary>
+            <param name="stream">Stream to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="logicalTypeFactory">Custom type factory used to map from dotnet types to Parquet types</param>
+            <param name="compression">Compression to use for all columns</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+            <param name="leaveOpen">Whether to keep the stream open after closing the writer</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(System.String,ParquetSharp.Column[],ParquetSharp.WriterProperties,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="path">Location to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="writerProperties">Writer properties to use</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(ParquetSharp.IO.OutputStream,ParquetSharp.Column[],ParquetSharp.WriterProperties,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="outputStream">Stream to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="writerProperties">Writer properties to use</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(System.String,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.WriterProperties,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="path">Location to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="logicalTypeFactory">Custom type factory used to map from dotnet types to Parquet types</param>
+            <param name="writerProperties">Writer properties to use</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(ParquetSharp.IO.OutputStream,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.WriterProperties,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="outputStream">Stream to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="logicalTypeFactory">Custom type factory used to map from dotnet types to Parquet types</param>
+            <param name="writerProperties">Writer properties to use</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(System.IO.Stream,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.WriterProperties,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            Open a new ParquetFileWriter for writing to a .NET stream
+            </summary>
+            <param name="stream">Stream to write to</param>
+            <param name="columns">Definitions of columns to be written</param>
+            <param name="logicalTypeFactory">Custom type factory used to map from dotnet types to Parquet types</param>
+            <param name="writerProperties">Writer properties to use</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+            <param name="leaveOpen">Whether to keep the stream open after closing the writer</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(System.String,ParquetSharp.Schema.GroupNode,ParquetSharp.WriterProperties,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="path">Location to write to</param>
+            <param name="schema">Root schema node defining the structure of the file</param>
+            <param name="writerProperties">Writer properties to use</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(ParquetSharp.IO.OutputStream,ParquetSharp.Schema.GroupNode,ParquetSharp.WriterProperties,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Open a new ParquetFileWriter
+            </summary>
+            <param name="outputStream">Stream to write to</param>
+            <param name="schema">Root schema node defining the structure of the file</param>
+            <param name="writerProperties">Writer properties to use</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.#ctor(System.IO.Stream,ParquetSharp.Schema.GroupNode,ParquetSharp.WriterProperties,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            Open a new ParquetFileWriter for writing to a .NET stream
+            </summary>
+            <param name="stream">Stream to write to</param>
+            <param name="schema">Root schema node defining the structure of the file</param>
+            <param name="writerProperties">Writer properties to use</param>
+            <param name="keyValueMetadata">Optional dictionary of key-value metadata.
+            This isn't read until the file is closed, to allow metadata to be modified after data is written.</param>
+            <param name="leaveOpen">Whether to keep the stream open after closing the writer</param>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.Close">
+            <summary>
+            Close the file writer as well any column or group writers that are still opened.
+            This is the recommended way of closing Parquet files, rather than relying on the Dispose() method,
+            as the latter will gobble exceptions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.AppendRowGroup">
+            <summary>
+            Creates and returns a new <see cref="T:ParquetSharp.RowGroupWriter"/> for writing a row group to the file.
+            </summary>
+            <returns>A new <see cref="T:ParquetSharp.RowGroupWriter"/> instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.AppendBufferedRowGroup">
+            <summary>
+            Creates and returns a new <see cref="T:ParquetSharp.RowGroupWriter"/> for writing a buffered row group.
+            Using a buffered writer allows writing to columns in any order, and writes to different columns
+            may be interleaved, but requires more memory.
+            </summary>
+            <returns>A new <see cref="T:ParquetSharp.RowGroupWriter"/> instance.</returns>
+        </member>
+        <member name="P:ParquetSharp.ParquetFileWriter.LogicalTypeFactory">
+            <summary>
+            The <see cref="T:ParquetSharp.LogicalTypeFactory"/> for handling custom types.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ParquetFileWriter.LogicalWriteConverterFactory">
+            <summary>
+            The <see cref="P:ParquetSharp.ParquetFileWriter.LogicalWriteConverterFactory"/> for writing custom types.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ParquetFileWriter.WriterProperties">
+            <summary>
+            The <see cref="T:ParquetSharp.WriterProperties"/> used to configure the writer.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ParquetFileWriter.Schema">
+            <summary>
+            The schema of the file.
+            </summary>        
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.ColumnDescriptor(System.Int32)">
+            <summary>
+            Get the <see cref="T:ParquetSharp.ColumnDescriptor"/> for the specified column index.
+            </summary>
+            <param name="i">The column index.</param>
+            <returns>A <see cref="T:ParquetSharp.ColumnDescriptor"/> instance for the specified column.</returns>
+        </member>
+        <member name="P:ParquetSharp.ParquetFileWriter.KeyValueMetadata">
+            <summary>
+            Returns a read-only copy of the current key-value metadata to be written
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ParquetFileWriter.FileMetaData">
+            <summary>
+            Returns the file metadata for the file.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ParquetFileWriter.SetKeyValueMetadata">
+            <summary>
+            Sets Parquet key value metadata by copying values from the key-value metadata dictionary.
+            We delay doing this until the file is closed to allow users to modify the key-value metadata after
+            data is written.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ParquetHandle">
+            <summary>
+            Associate a native handle with its corresponding resource release method.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.ReaderProperties">
+            <summary>
+            Configures options for reading Parquet files.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ReaderProperties.GetDefaultReaderProperties">
+            <summary>
+            Create a new <see cref="T:ParquetSharp.ReaderProperties"/> with default values.
+            </summary>
+            <returns>A new <see cref="T:ParquetSharp.ReaderProperties"/> object with default values.</returns>
+        </member>
+        <member name="P:ParquetSharp.ReaderProperties.IsBufferedStreamEnabled">
+            <summary>
+            Whether the buffered stream is enabled for reading.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ReaderProperties.BufferSize">
+            <summary>
+            The size of the buffer (in bytes) used for reading.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ReaderProperties.FileDecryptionProperties">
+            <summary>
+            The <see cref="T:ParquetSharp.FileDecryptionProperties"/> used for reading encrypted files.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ReaderProperties.EnableBufferedStream">
+            <summary>
+            Enable buffered stream for reading.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ReaderProperties.DisableBufferedStream">
+            <summary>
+            Disable buffered stream for reading.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.ReaderProperties.PageChecksumVerification">
+            <summary>
+            Whether page checksums are verified during reading to check for data corruption
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ReaderProperties.EnablePageChecksumVerification">
+            <summary>
+            Enable page checksum verification during reading to check for data corruption
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.ReaderProperties.DisablePageChecksumVerification">
+            <summary>
+            Disable page checksum verification during reading to check for data corruption
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.RowGroupMetaData">
+            <summary>
+            Represents the metadata for a row group in a Parquet file.
+            </summary>
+            <remarks>
+            A row group is a logical horizontal partition of a Parquet file that contains a set of column chunks.
+            This class provides information about the columns and rows in the row group.
+            </remarks>
+        </member>
+        <member name="P:ParquetSharp.RowGroupMetaData.NumColumns">
+            <summary>
+            Get the number of columns in the row group.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.RowGroupMetaData.NumRows">
+            <summary>
+            Get the number of rows in the row group.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.RowGroupMetaData.Schema">
+            <summary>
+            Get the schema descriptor for the row group.
+            </summary>
+            <value>A <see cref="T:ParquetSharp.SchemaDescriptor"/> object that describes the schema of the row group.</value>
+        </member>
+        <member name="P:ParquetSharp.RowGroupMetaData.TotalByteSize">
+            <summary>
+            Get the total size of the row group in bytes.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowGroupMetaData.GetColumnChunkMetaData(System.Int32)">
+            <summary>
+            Get the metadata for the column chunk at the specified index.
+            </summary>
+            <param name="i">The index of the column chunk.</param>
+            <returns>The metadata for the column chunk.</returns>
+            <remarks>
+            Column chunks are stored in the same order as the columns in the schema.
+            </remarks>
+        </member>
+        <member name="T:ParquetSharp.RowGroupReader">
+            <summary>
+            Reads row groups in a Parquet file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.RowGroupReader.MetaData">
+            <summary>
+            Get the metadata for this row group.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowGroupReader.Column(System.Int32)">
+            <summary>
+            Get the column reader for the specified column index.
+            </summary>
+            <param name="i">The column index</param>
+            <returns>A column reader for the specified column index</returns>
+        </member>
+        <member name="T:ParquetSharp.RowGroupWriter">
+            <summary>
+            Writes a row group to a Parquet file. Allows access to individual <see cref="T:ParquetSharp.ColumnWriter"/>
+            instances for each column in the row group.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowGroupWriter.Column(System.Int32)">
+            <summary>
+            Get the column writer for the i-th column.
+            </summary>
+            <remarks>
+            This method may only be used with a buffered row group writer, created with <see cref="M:ParquetSharp.ParquetFileWriter.AppendBufferedRowGroup"/>.
+            </remarks>
+            <param name="i">The index of the column.</param>
+            <returns>A <see cref="T:ParquetSharp.ColumnWriter"/> for the i-th column.</returns>
+        </member>
+        <member name="M:ParquetSharp.RowGroupWriter.NextColumn">
+            <summary>
+            Get the column writer for the next column.
+            </summary>
+            <remarks>
+            This method is not valid when using a buffered row group writer.
+            </remarks>
+            <returns>A <see cref="T:ParquetSharp.ColumnWriter"/> for the next column.</returns>
+        </member>
+        <member name="T:ParquetSharp.RowOriented.MappedField">
+            <summary>
+            Represents a field or property of a type that is to be mapped to a Parquet column
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.RowOriented.MapToColumnAttribute">
+            <summary>
+            Explicitly map the given field to a specific column name.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.RowOriented.ParquetFile">
+            <summary>
+            Static factory for creating row-oriented Parquet readers and writers.
+            This is a higher-level API not part of apache-parquet-cpp.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowReader``1(System.String)">
+            <summary>
+            Create a row-oriented reader from a file.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowReader``1(ParquetSharp.IO.RandomAccessFile)">
+            <summary>
+            Create a row-oriented reader from an input stream.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowReader``1(System.String,ParquetSharp.LogicalTypeFactory,ParquetSharp.LogicalReadConverterFactory)">
+            <summary>
+            Create a row-oriented reader from a file using custom types.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowReader``1(ParquetSharp.IO.RandomAccessFile,ParquetSharp.LogicalTypeFactory,ParquetSharp.LogicalReadConverterFactory)">
+            <summary>
+            Create a row-oriented reader from an input stream using custom types.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(System.String,System.String[],ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to a file. By default, the column names are reflected from the tuple public fields and properties.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(ParquetSharp.IO.OutputStream,System.String[],ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to an output stream. By default, the column names are reflected from the tuple public fields and properties.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(System.String,ParquetSharp.Column[],ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to a file path using the specified column definitions.
+            Note that any MapToColumn or ParquetDecimalScale attributes will be overridden by the column definitions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(System.String,ParquetSharp.WriterProperties,ParquetSharp.Column[],System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to a file path using the specified writerProperties and column definitions.
+            Note that any MapToColumn or ParquetDecimalScale attributes will be overridden by the column definitions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(ParquetSharp.IO.OutputStream,ParquetSharp.Column[],ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to an output stream using the specified column definitions.
+            Note that any MapToColumn or ParquetDecimalScale attributes will be overridden by the column definitions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(ParquetSharp.IO.OutputStream,ParquetSharp.WriterProperties,ParquetSharp.Column[],System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to an output stream using the specified writerProperties and column definitions.
+            Note that any MapToColumn or ParquetDecimalScale attributes will be overridden by the column definitions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(System.String,ParquetSharp.LogicalTypeFactory,ParquetSharp.LogicalWriteConverterFactory,System.String[],ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to a file using custom types. By default, the column names are reflected from the tuple public fields and properties.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(ParquetSharp.IO.OutputStream,ParquetSharp.LogicalTypeFactory,ParquetSharp.LogicalWriteConverterFactory,System.String[],ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to an output stream using custom types. By default, the column names are reflected from the tuple public fields and properties.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(System.String,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.LogicalWriteConverterFactory,ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to a file path using the specified column definitions and custom types.
+            Note that any MapToColumn or ParquetDecimalScale attributes will be overridden by the column definitions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(System.String,ParquetSharp.WriterProperties,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.LogicalWriteConverterFactory,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to a file path using the specified writerProperties and column definitions and custom types.
+            Note that any MapToColumn or ParquetDecimalScale attributes will be overridden by the column definitions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(ParquetSharp.IO.OutputStream,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.LogicalWriteConverterFactory,ParquetSharp.Compression,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to an output stream using the specified column definitions and custom types.
+            Note that any MapToColumn or ParquetDecimalScale attributes will be overridden by the column definitions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateRowWriter``1(ParquetSharp.IO.OutputStream,ParquetSharp.WriterProperties,ParquetSharp.Column[],ParquetSharp.LogicalTypeFactory,ParquetSharp.LogicalWriteConverterFactory,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Create a row-oriented writer to an output stream using the specified writerProperties, column definitions and custom types.
+            Note that any MapToColumn or ParquetDecimalScale attributes will be overridden by the column definitions.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateReadDelegate``1(ParquetSharp.RowOriented.MappedField[])">
+            <summary>
+            Returns a delegate to read rows from individual Parquet columns.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetFile.CreateWriteDelegate``1">
+            <summary>
+            Return a delegate to write rows to individual Parquet columns, as well the fields to be mapped to columns.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.RowOriented.ParquetRowReader`1">
+            <summary>
+            Parquet file reader abstracting away the column-oriented nature of Parquet files, returns lists of rows instead.
+            This is a higher-level API not part of apache-parquet-cpp.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.RowOriented.ParquetRowReader`1.#ctor(System.String,ParquetSharp.RowOriented.ParquetRowReader{`0}.ReadAction,ParquetSharp.RowOriented.MappedField[],ParquetSharp.LogicalTypeFactory,ParquetSharp.LogicalReadConverterFactory)">
+            <summary>
+            Create a new ParquetRowReader.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.RowOriented.ParquetRowReader`1.ExplicitColumnMapping">
+            <summary>
+            Glorified dictionary that helps us map a field to an explicitly given column name.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.RowOriented.ParquetRowWriter`1">
+            <summary>
+            Parquet file writer abstracting away the column-oriented nature of Parquet files, writes lists of rows instead.
+            This is a higher-level API not part of apache-parquet-cpp.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Schema.Node">
+            <summary>
+            Base class for logical schema types. A type has a name, repetition level, and optionally a logical type.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.Schema.Node.DeepClone">
+            <summary>
+            Deep cloning of the node. If the node is a group node, its children will be deep cloned as well.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.Schema.PrimitiveNode">
+            <summary>
+            A type that is one of the primitive Parquet storage types.
+            In addition to the other type metadata (name, repetition level, logical type), also has the
+            physical storage type and their type-specific metadata (byte width, decimal parameters)
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.TimeSpanNanos">
+            <summary>
+            Represents a Parquet Time with Nanoseconds time unit.
+            </summary>
+        </member>
+        <member name="F:ParquetSharp.TimeSpanNanos.Ticks">
+            <summary>
+            Number of nanoseconds since midnight.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.TimeSpanNanos.TimeSpan">
+            <summary>
+            Convert to System.TimeSpan with reduced precision.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.TypeUtils.UseDecimal128(ParquetSharp.ColumnDescriptor)">
+            <summary>
+            Whether to use the <see cref="T:ParquetSharp.Decimal128"/> type for conversion between decimal values
+            and fixed length byte array data.
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.WriterProperties">
+            <summary>
+            Configures options for writing Parquet files.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.WriterProperties.GetDefaultWriterProperties">
+            <summary>
+            Create a new <see cref="T:ParquetSharp.WriterProperties"/> with default values.
+            </summary>
+            <returns>A new <see cref="T:ParquetSharp.WriterProperties"/> object with default values.</returns>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.CreatedBy">
+            <summary>
+            The entity that created the file.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.DataPageSize">
+            <summary>
+            The size of the data pages in bytes.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.DictionaryIndexEncoding">
+            <summary>
+            The <see cref="T:ParquetSharp.Encoding"/> used for dictionary index encoding.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.DictionaryPageEncoding">
+            <summary>
+            The <see cref="T:ParquetSharp.Encoding"/> used for dictionary page encoding.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.DictionaryPagesizeLimit">
+            <summary>
+            The maximum dictionary page size in bytes.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.FileEncryptionProperties">
+            <summary>
+            The <see cref="T:ParquetSharp.FileEncryptionProperties"/> used for writing encrypted files.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.MaxRowGroupLength">
+            <summary>
+            The maximum number of rows in a row group.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.Version">
+            <summary>
+            The version of the Parquet format to write.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.WriteBatchSize">
+            <summary>
+            The number of records to batch together when writing.
+            </summary>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.WritePageIndex">
+            <summary>
+            Whether writing the page index is enabled for any columns
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.WriterProperties.WritePageIndexForPath(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Whether writing the page index is enabled for the specified column
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.WriterProperties.Compression(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Get the <see cref="T:ParquetSharp.Compression"/> type used for the specified column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column.</param>
+            <returns>The <see cref="T:ParquetSharp.Compression"/> type used for the specified column.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterProperties.CompressionLevel(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Get the compression level used for the specified column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column.</param>
+            <returns>The compression level used for the specified column.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterProperties.DictionaryEnabled(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Whether dictionary encoding is enabled for the specified column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column.</param>
+            <returns>Whether dictionary encoding is enabled for the specified column.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterProperties.Encoding(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Get the <see cref="T:ParquetSharp.Encoding"/> used for the specified column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column.</param>
+            <returns>The <see cref="T:ParquetSharp.Encoding"/> used for the specified column.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterProperties.StatisticsEnabled(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Whether statistics are enabled for the specified column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column.</param>
+            <returns>Whether statistics are enabled for the specified column.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterProperties.MaxStatisticsSize(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            The maximum size of statistics for the specified column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column.</param>
+            <returns>The maximum size of statistics for the specified column.</returns>
+        </member>
+        <member name="P:ParquetSharp.WriterProperties.PageChecksumEnabled">
+            <summary>
+            Whether CRC checksums are written for data pages
+            </summary>
+        </member>
+        <member name="T:ParquetSharp.WriterPropertiesBuilder">
+            <summary>
+            Builder pattern for creating and configuring a <see cref="T:ParquetSharp.WriterProperties"/> object. 
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.#ctor">
+            <summary>
+            Create a new WriterPropertiesBuilder.
+            </summary>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.Build">
+            <summary>
+            Build the <see cref="T:ParquetSharp.WriterProperties"/> from the current state of the builder.
+            </summary>
+            <returns>The configured <see cref="T:ParquetSharp.WriterProperties"/> object.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisableDictionary">
+            <summary>
+            Disable dictionary encoding for all columns.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisableDictionary(System.String)">
+            <summary>
+            Disable dictionary encoding for a specific column.
+            </summary>
+            <param name="path">The path of the column to disable dictionary encoding for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisableDictionary(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Disable dictionary encoding for a specific column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column to disable dictionary encoding for.</param>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnableDictionary">
+            <summary>
+            Enable dictionary encoding by default.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnableDictionary(System.String)">
+            <summary>
+            Enable dictionary encoding for a specific column.
+            </summary>
+            <param name="path">The path of the column to enable dictionary encoding for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnableDictionary(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Enable dictionary encoding for a specific column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column to enable dictionary encoding for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisableStatistics">
+            <summary>
+            Disable statistics by default.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisableStatistics(System.String)">
+            <summary>
+            Disable statistics for a specific column.
+            </summary>
+            <param name="path">The path of the column to disable statistics for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisableStatistics(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Disable statistics for a specific column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column to disable statistics for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnableStatistics">
+            <summary>
+            Enable statistics by default.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnableStatistics(System.String)">
+            <summary>
+            Enable statistics for a specific column.
+            </summary>
+            <param name="path">The path of the column to enable statistics for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnableStatistics(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Enable statistics for a specific column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column to enable statistics for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.Compression(ParquetSharp.Compression)">
+            <summary>
+            Set the compression codec to use for all columns.
+            </summary>
+            <param name="codec">The <see cref="T:ParquetSharp.Compression"/> codec to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.Compression(System.String,ParquetSharp.Compression)">
+            <summary>
+            Set the compression codec to use for a specific column.
+            </summary>
+            <param name="path">The path of the column to set the compression codec for.</param>
+            <param name="codec">The <see cref="T:ParquetSharp.Compression"/> codec to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.Compression(ParquetSharp.Schema.ColumnPath,ParquetSharp.Compression)">
+            <summary>
+            Set the compression codec to use for a specific column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column to set the compression codec for.</param>
+            <param name="codec">The <see cref="T:ParquetSharp.Compression"/> codec to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.CompressionLevel(System.Int32)">
+            <summary>
+            Set the compression level to use for all columns.
+            </summary>
+            <param name="compressionLevel">The compression level to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.CompressionLevel(System.String,System.Int32)">
+            <summary>
+            Set the compression level to use for a specific column.
+            </summary>
+            <param name="path">The path of the column to set the compression level for.</param>
+            <param name="compressionLevel">The compression level to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.CompressionLevel(ParquetSharp.Schema.ColumnPath,System.Int32)">
+            <summary>
+            Set the compression level to use for a specific column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column to set the compression level for.</param>
+            <param name="compressionLevel">The compression level to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.CreatedBy(System.String)">
+            <summary>
+            Set an identifier for the entity that created the file.
+            </summary>
+            <param name="createdBy">The name of the entity that created the file.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DataPagesize(System.Int64)">
+            <summary>
+            Set the maximum size of a data page in bytes.
+            </summary>
+            <param name="pageSize">The maximum data page size to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DictionaryPagesizeLimit(System.Int64)">
+            <summary>
+            Set the maximum size of a dictionary page in bytes.
+            </summary>
+            <param name="dictionaryPagesizeLimit">The maximum dictionary page size to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.Encoding(ParquetSharp.Encoding)">
+            <summary>
+            Set the encoding type to use for all columns.
+            </summary>
+            <param name="encoding">The <see cref="T:ParquetSharp.Encoding"/> to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.Encoding(System.String,ParquetSharp.Encoding)">
+            <summary>
+            Set the encoding type to use for a specific column.
+            </summary>
+            <param name="path">The path of the column to set the encoding for.</param>
+            <param name="encoding">The <see cref="T:ParquetSharp.Encoding"/> to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.Encoding(ParquetSharp.Schema.ColumnPath,ParquetSharp.Encoding)">
+            <summary>
+            Set the encoding type to use for a specific column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column to set the encoding for.</param>
+            <param name="encoding">The <see cref="T:ParquetSharp.Encoding"/> to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.Encryption(ParquetSharp.FileEncryptionProperties)">
+            <summary>
+            Set the encryption properties to use for the file.
+            </summary>
+            <param name="fileEncryptionProperties">The <see cref="T:ParquetSharp.FileEncryptionProperties"/> to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.MaxRowGroupLength(System.Int64)">
+            <summary>
+            Set the maximum size of a row group in bytes.
+            </summary>
+            <param name="maxRowGroupLength">The maximum row group size to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.Version(ParquetSharp.ParquetVersion)">
+            <summary>
+            Set the Parquet version to use for the file.
+            </summary>
+            <param name="version">The <see cref="T:ParquetSharp.ParquetVersion"/> to use.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.WriteBatchSize(System.Int64)">
+            <summary>
+            Set the number of rows to write in a single batch.
+            </summary>
+            <param name="writeBatchSize">The number of rows to write in a single batch.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnableWritePageIndex">
+             <summary>
+             Enable writing the page index by default
+            
+             The page index contains statistics for data pages and can be used to skip pages
+             when scanning data in ordered and unordered columns.
+            
+             For more details, see https://github.com/apache/parquet-format/blob/master/PageIndex.md
+             </summary>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnableWritePageIndex(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Enable writing the page index for a specific column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column to enable the page index for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnableWritePageIndex(System.String)">
+            <summary>
+            Enable writing the page index for a specific column.
+            </summary>
+            <param name="path">The path of the column to enable the page index for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisableWritePageIndex">
+            <summary>
+            Disable writing the page index by default.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisableWritePageIndex(ParquetSharp.Schema.ColumnPath)">
+            <summary>
+            Disable writing the page index for a specific column.
+            </summary>
+            <param name="path">The <see cref="T:ParquetSharp.Schema.ColumnPath"/> of the column to disable the page index for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisableWritePageIndex(System.String)">
+            <summary>
+            Disable writing the page index for a specific column.
+            </summary>
+            <param name="path">The path of the column to disable the page index for.</param>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.EnablePageChecksum">
+            <summary>
+            Enable writing CRC checksums for data pages.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+        <member name="M:ParquetSharp.WriterPropertiesBuilder.DisablePageChecksum">
+            <summary>
+            Disable writing CRC checksums for data pages.
+            </summary>
+            <returns>This builder instance.</returns>
+        </member>
+    </members>
+</doc>

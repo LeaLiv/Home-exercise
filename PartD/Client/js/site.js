@@ -76,9 +76,6 @@ const showNewSupplierDetails = () => {
     newSupplierInfo.append(document.createElement('br'));
     const newSupplierProductButton = document.getElementById('new-supplier-product-button');
     newSupplierProductButton.style.display = 'block';
-    // newSupplierProductButton.innerText = 'הוספת מוצר';
-    // newSupplierProductButton.onclick = addProductField();
-    // newSupplierInfo.appendChild(newSupplierProductButton);
     newSupplierInfo.append(document.createElement('br'));
     const submitButtom = document.createElement('button');
     submitButtom.type = 'submit';
@@ -87,8 +84,7 @@ const showNewSupplierDetails = () => {
 
 }
 
-const addProductField = (e) => {
-    // e.preventDefault();
+const addProductField = () => {
     const newProductDiv = document.createElement('div')
     newProductDiv.className = 'new-product-div'
     console.log("in addProductField")
@@ -148,8 +144,8 @@ async function addSupplier() {
         },
         body: JSON.stringify(item)
     })
-        .then(response =>response.json())
-        .then(data => { 
+        .then(response => response.json())
+        .then(data => {
             localStorage.setItem('supplierId', data._id);
             localStorage.setItem('supplierName', data.companyName);
             localStorage.setItem('supplierPhone', data.phone);

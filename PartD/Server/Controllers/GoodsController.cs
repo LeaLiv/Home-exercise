@@ -54,6 +54,7 @@ namespace PartD.Controllers
         [HttpPut("UpdateGoodsSupply")]
         public IActionResult UpdateGoods(Dictionary<string, int> goods)
         {
+            //after checkout need to check if need to update supply
             List<string> itemNotFound = new List<string>();
             IOrderService _orderService = new OrderService();
             IService<Supplier> _supplierService = new SupplierService();

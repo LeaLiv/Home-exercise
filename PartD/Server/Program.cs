@@ -28,9 +28,9 @@ if (app.Environment.IsDevelopment())
     // app.MapOpenApi();
 }
 BsonSerializer.RegisterIdGenerator(typeof(string), new StringObjectIdGenerator());
-// app.UseDefaultFiles();
+
 app.UseCors("MyPolicy");
-// app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

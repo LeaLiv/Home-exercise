@@ -9,7 +9,7 @@ const changeStatus = async (order) => {
         changeStatusButton.setAttribute('disabled', true);
     }
     console.log(JSON.stringify({ "status": status.innerText }));
-    
+
     let orderId = order.id.split('_')[1];
     await fetch(`${uri}/order/UpdateOrderStatus/${orderId}`, {
         method: 'PUT',
@@ -18,8 +18,8 @@ const changeStatus = async (order) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ "status": status.innerText })
-    }).then(response => console.log("succeed"))   
-    .catch(error => console.error('Unable to update item.', error));
+    }).then(response => console.log("succeed"))
+        .catch(error => console.error('Unable to update item.', error));
 
 }
 

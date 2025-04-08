@@ -18,12 +18,9 @@ public class SectionA
     const string TIMESTAMP_PATTERN = "Timestamp: "; //2023-10-01 12:00:00
     const bool USE_DEFAULT_PARAMS = false; //if false, use the params from the command line
 
-    //לחלק את הקובץ לתוך מערכים חלוקה לכל 100,000 שורות ואז ריצה במקביליות
-    //ואז עבור כל חלק פירת השכיחיות
-
     public static async Task Main(string[] args)
     {
-        var filePath = ""; // C:\Lea\Home exercise\files\logs.txt
+        var filePath = ""; 
         var topErrorsNumberStr = "";
 
         if (USE_DEFAULT_PARAMS)
@@ -55,7 +52,7 @@ public class SectionA
         var topErrorsNumber = -1;
         if (!int.TryParse(topErrorsNumberStr, out topErrorsNumber))
         {
-            Console.WriteLine("Errors number shoud be of integer type");
+            Console.WriteLine("Errors number should be of integer type");
             return;
         }
 
@@ -67,14 +64,6 @@ public class SectionA
         TimeSpan diff = (end - start);
         Console.WriteLine("By threading " +
             "total processing time... {0:00}:{1:00}:{2:00}.{3}", diff.Hours, diff.Minutes, diff.Seconds, diff.Milliseconds);
-
-        //start = DateTime.Now;
-        //Console.WriteLine("Start by without threading readline ...");
-        //ReadFileByLine(filePath);
-        //end = DateTime.Now;
-        //diff = (end - start);
-        //Console.WriteLine("Without threading " +
-        //    "total processing time... {0:00}:{1:00}:{2:00}.{3}", diff.Hours, diff.Minutes, diff.Seconds, diff.Milliseconds);
 
     }
 
@@ -123,19 +112,11 @@ public class SectionA
         {
             var start = i * BEFFER_SIZE;
             var taskIndex = i + 1;           
-            //if (i == countBulks - 1)
-            //{
-            //    var lastChunkSize = fileSize - start;
-            //    if (lastChunkSize < BEFFER_SIZE)
-            //    {
-            //        BEFFER_SIZE = (int)lastChunkSize;
-            //    }
-            //}
             tasks[i] = Task.Run(() => ReadChunk(filePath, start, (int)Math.Min(BEFFER_SIZE, fileSize - start), allErrors, brokenLinesByTask, taskIndex));
         }
 
         await Task.WhenAll(tasks);
-
+        //handle broken lines
         if (brokenLinesByTask.Count > 0)
         {
             Hashtable errors = new();
@@ -204,7 +185,8 @@ public class SectionA
     }
 
     public static void ReadChunk(string filePath, int start, int count, List<Hashtable> allErrors, Hashtable brokenLinesByTask, int taskIndex)
-    {        
+    {
+        //reading the cuurent chunk
         using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
         fs.Seek(start, SeekOrigin.Begin);
         using var sr = new StreamReader(fs);
