@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grocer details</title>
     <link rel="stylesheet" href="./css/site.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 <body>
     <form id="enterForm" action="javascript:void(0)" onsubmit="enterSystem()">
@@ -12,8 +13,13 @@
         <input type="submit" value="כניסת בעל מכולת">
 
     </form>
+    <div id="loader"></div>
+    <br>
+    <button id="displayOrderForm" onclick="displayOrderForm()" style="display: none;">הזמנת סחורה</button>
+    <br>
+    <button id="displayOrders" onclick="displayOrders()" style="display: none;">צפייה בהזמנות </button>
     <div id="grocerPage" style="display: none;">
-        <table>
+        <table class="table table-bordered table-striped">
             <tr>
                 <th>פרטי ספק</th>
                 <th>שם איש הקשר</th>
@@ -22,6 +28,16 @@
             <tbody id="supplierDetails"> </tbody>
         </table>
         <button onclick="makeOrder()">בצע הזמנה</button>
+    </div>
+    <div id="displayOrdersTable" style="display: none;">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>מזהה ספק</th>
+                <th>מוצרים</th>
+                <th>סטטוס</th>
+            </tr>
+            <tbody id="ordersDetails"> </tbody>
+        </table>
     </div>
 </body>
 <script src="./js/grocer.js"></script>

@@ -4,7 +4,7 @@ using PartD.Interfaces;
 
 namespace PartD.Services;
 
-public class OrderService:IService<Order>
+public class OrderService:IOrderService
 {       
     List<Order> _orders;
     const string COLLECTION_NAME = "Orders";
@@ -31,11 +31,15 @@ public class OrderService:IService<Order>
         _orders.Add(newItem);
         MongoService.InsertOne(newItem, COLLECTION_NAME).Wait();
     }
+    public void UpdateStatus(string orderId,string status)
+    {
+         MongoService.UpdateOne<Order>(orderId,status,"status", COLLECTION_NAME).Wait();
+    }
 }
 public static class OrderUtilities
 {
     public static void AddOrderService(this IServiceCollection services)
     {
-        services.AddSingleton<IService<Order>, OrderService>();
+        services.AddSingleton<IOrderService, OrderService>();
     }
 }

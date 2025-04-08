@@ -10,8 +10,8 @@ namespace PartD.Controllers
     [Route("api/[controller]")]
     public class OrderController : ControllerBase
     {
-        IService<Order> _orderService;
-        public OrderController(IService<Order> orderService)
+        IOrderService _orderService;
+        public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
         }
@@ -24,6 +24,11 @@ namespace PartD.Controllers
         public ActionResult<List<Order>> GetAllOrdersToSupplier(string supplierPhone) =>
              _orderService.GetAllItemsByfilter(s => s.SupplierId == supplierPhone);
 
+        [HttpGet("GetAllOrdersToGrocer/{grocerId}")]
+        public ActionResult<List<Order>> GetAllOrdersToGrocer(string grocerId) =>
+             _orderService.GetAllItemsByfilter(s => s.GrocerId == grocerId);
+
+
         [HttpGet("GetOrderById/{id}")]
         public ActionResult<Order> Get(string id)
         {
@@ -34,11 +39,26 @@ namespace PartD.Controllers
             }
             return order;
         }
-        [HttpPost]
-        public IActionResult Insert(Order newOrder)
+        [HttpPost("MakeOrder")]
+        public IActionResult Insrt(Order newOrder)
         {
             _orderService.Insert(newOrder);
             return CreatedAtAction(nameof(Get), new { id = newOrder._id }, newOrder);
         }
+
+        [HttpPut("UpdateOrderStatus/{id}")]
+        public IActionResult Update(string id, [FromBody] UpdateStatusRequest status)
+        {
+            if (Get(id) == null)
+            {
+                return NotFound();
+            }
+            _orderService.UpdateStatus(id, status.Status);
+            return NoContent();
+        }
     }
+}
+public class UpdateStatusRequest
+{
+    public string Status { get; set; }
 }

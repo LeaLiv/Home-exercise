@@ -29,6 +29,14 @@ public class MongoService
         await Collection.InsertOneAsync(item);
     }
 
+    public static async Task<UpdateResult> UpdateOne<T>(string _id, string value,string fieldName,string collectionName)
+    {
+        IMongoCollection<T> Collection = database.GetCollection<T>(collectionName);
+        var filter = Builders<T>.Filter.Eq("_id", _id);
+        var update = Builders<T>.Update.Set(fieldName, value); // Example update operation
+        return await Collection.UpdateOneAsync(filter, update);
+    }
+
     public static async Task<T> GetWithFilter<T>(string collectionName, FilterDefinition<T> filter)
     {
         IMongoCollection<T> Collection = database.GetCollection<T>(collectionName);

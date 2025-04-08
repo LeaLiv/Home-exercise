@@ -10,6 +10,9 @@ const enterSystem = async () => {
     const supplierPhone = document.getElementById('supplier-phone').value;
     const supplierName = document.getElementById('supplier-name').value;
     console.log(`${uri}/${supplierPhone}`);
+    let loader = document.getElementById('loader');
+    loader.style.display = 'block';
+    loader.innerHTML = 'Loading data...';
 
     await fetch(`${uri}/GetSupplierByPhone/${supplierPhone}`)
         .then(response => response.json())
@@ -18,11 +21,13 @@ const enterSystem = async () => {
             if (data == null || data.status == 404) {
                 alert("מספר טלפון לא קיים במערכת")
                 enterForm.style.display = 'block';
+                loader.style.display = 'none';
                 return;
             }
             if (data.companyName != supplierName) {
                 alert("שם חברה לא תואם מספר טלפון");
                 enterForm.style.display = 'block';
+                loader.style.display = 'none';
                 return;
             }
             //all is good need to show details
@@ -35,6 +40,7 @@ const enterSystem = async () => {
         .catch(error => {
             alert("נתונים שגויים הכנס שוב");
             enterForm.style.display = 'block';
+            loader.style.display = 'none';
             console.error('Unable to get supplier.', error)
             return;
         });
@@ -108,14 +114,14 @@ const addProductField = (e) => {
 }
 
 
-function addSupplier() {
+async function addSupplier() {
     const newSupplierCompanyName = document.getElementById('new-supplier-company-name').value.trim();
     const newSupplierConcatPerson = document.getElementById('new-supplier-contact-person').value.trim();
     const newSupplierPhoneNumber = document.getElementById('new-supplier-phone-number').value;
     const newSpplierproducts = document.getElementsByClassName('new-product-div');
 
     const item = {
-        _id:generateUUID(),
+        _id: generateUUID(),
         companyName: newSupplierCompanyName,
         Phone: newSupplierPhoneNumber,
         contactPerson: newSupplierConcatPerson,
@@ -128,11 +134,13 @@ function addSupplier() {
             minQuantity: newSpplierproducts.item(i).querySelector('#new-product-quantity').value
 
         }
-        item.Products.push(product);    
+        item.Products.push(product);
         console.log(item.Products);
     }
-
-    fetch(uri, {
+    let loader = document.getElementById('loader');
+    loader.style.display = 'block';
+    loader.innerHTML = 'Loading data...';
+    await fetch(uri, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -140,23 +148,31 @@ function addSupplier() {
         },
         body: JSON.stringify(item)
     })
-        .then(response => response.json())
+        .then(response =>response.json())
+        .then(data => { 
+            localStorage.setItem('supplierId', data._id);
+            localStorage.setItem('supplierName', data.companyName);
+            localStorage.setItem('supplierPhone', data.phone);
+            localStorage.setItem('supplierContactPerson', data.contactPerson);
+
+        })
         .catch(error => console.error('Unable to add item.', error));
-        window.location.href = '/supplierDetails.html';
+    loader.style.display = 'none';
+    window.location.href = '/supplierDetails.html';
 
 }
 
 function generateUUID() { // Public Domain/MIT
     var d = new Date().getTime();//Timestamp
-    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
-    return 'xxxxxxxxxx4xxxyxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now() * 1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+    return 'xxxxxxxxxx4xxxyxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16;//random number between 0 and 16
-        if(d > 0){//Use timestamp until depleted
-            r = (d + r)%16 | 0;
-            d = Math.floor(d/16);
+        if (d > 0) {//Use timestamp until depleted
+            r = (d + r) % 16 | 0;
+            d = Math.floor(d / 16);
         } else {//Use microseconds since page-load if supported
-            r = (d2 + r)%16 | 0;
-            d2 = Math.floor(d2/16);
+            r = (d2 + r) % 16 | 0;
+            d2 = Math.floor(d2 / 16);
         }
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
